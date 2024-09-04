@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, useCallback } from "react"
 import { v4 as uuidv4 } from 'uuid';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from "remark-gfm"
 
 interface Message {
   content: string;
@@ -27,25 +29,8 @@ export function Chat() {
     return localStorage.getItem('userId');
   }, []);
 
-  useEffect(() => {
-    if (!chatId) {
-      setChatId(uuidv4());
-    }
-  }, [chatId]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!userInput) {
-      return;
-    }
-
+  const getAIResponse = useCallback(async () => {
     setLoading(true);
-
-    let newMessages = messages;
-    newMessages.push({ content: userInput, role: "user" });
-    setMessages(newMessages);
-    setUserInput("");
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ikigai/send-message`, {
       method: 'POST',
@@ -63,10 +48,27 @@ export function Chat() {
 
     const data = await response.json();
 
+    let newMessages = messages;
     newMessages.push({ content: data.content, role: "assistant" });
     setMessages(newMessages);
+
     setLoading(false);
-  };
+  }, [messages, userInput, chatId, userId]);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!userInput) {
+      return;
+    }
+
+    let newMessages = messages;
+    newMessages.push({ content: userInput, role: "user" });
+    setMessages(newMessages);
+    setUserInput("");
+
+    await getAIResponse();
+  }, [messages, userInput, getAIResponse]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -74,6 +76,32 @@ export function Chat() {
       handleSubmit(e as any);
     }
   };
+
+  useEffect(() => {
+    if (!chatId) {
+      setChatId(uuidv4());
+    }
+
+    if (chatId) {
+      setMessages([
+        {
+          role: "assistant",
+          content: `## Ikigai
+----
+A Japanese concept meaning **"reason for being."** It combines four elements:
+
+1. ### What you love
+2. ### What the world needs
+3. ### What you're good at
+4. ### What you can be paid for
+
+Ikigai is found at the intersection of these elements, representing a balance of passion, mission, profession, and vocation.
+
+**I'm here to help you find yours!** Ready?`
+        }
+      ]);
+    }
+  }, [chatId]);
 
   return (
     <div className="flex min-h-screen w-full bg-background">
@@ -172,8 +200,21 @@ export function Chat() {
                     <AvatarFallback>AC</AvatarFallback>
                   </Avatar>
                   )}
-                  <div className={`rounded-lg p-3 text-sm max-w-[80%] ${message.role === "user" ? "text-primary-foreground bg-primary" : "text-primary bg-muted"}`}>
-                    <p>{message.content}</p>
+                  <div className={`rounded-lg p-3 text-sm max-w-[80%] ${message.role === "user" ? "text-primary-foreground bg-primary" : "text-primary"}`}>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                        h2: ({node, ...props}) => <h2 className="text-lg font-bold" {...props} />,
+                        h3: ({node, ...props}) => <h3 className="font-bold" {...props} />,
+                        ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-2" {...props} />,
+                        ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-2" {...props} />,
+                        li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                        hr: ({node, ...props}) => <hr className="mb-2" {...props} />,
+                      }}
+                    >
+                      {message.content}
+                    </ReactMarkdown>
                   </div>
                   {message.role === "user" && (
                     <Avatar className="h-8 w-8">
