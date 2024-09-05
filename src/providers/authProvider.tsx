@@ -23,6 +23,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const newUserId = uuidv4();
         setUserId(newUserId);
         localStorage.setItem('userId', newUserId);
+      } else {
+        setUserId(storedUserId);
       }
     }, []);
 
