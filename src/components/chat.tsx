@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo, useCallback } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from "remark-gfm"
+import { useAuth } from "@/providers/authProvider";
 
 interface Message {
   content: string;
@@ -21,15 +22,9 @@ export function Chat() {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
+  const { userId } = useAuth();
 
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedUserId = localStorage.getItem('userId');
-    setUserId(storedUserId);
-  }, []);
-
-  const getAIResponse = useCallback(async () => {
+  const getAIResponse = useCallback(async (messages: Message[]) => {
     setLoading(true);
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ikigai/send-message`, {
@@ -41,19 +36,18 @@ export function Chat() {
       body: JSON.stringify({
         chat_id: chatId,
         model: "gpt-4o",
-        messages: [...messages, { content: userInput, role: "user" }],
+        messages: messages,
         flavour: Flavour.IKIGAI,
       }),
     });
 
     const data = await response.json();
 
-    let newMessages = messages;
-    newMessages.push({ content: data.content, role: "assistant" });
-    setMessages(newMessages);
+    messages.push({ content: data.content, role: "assistant" });
+    setMessages(messages);
 
     setLoading(false);
-  }, [messages, userInput, chatId, userId]);
+  }, [chatId, userId]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +61,7 @@ export function Chat() {
     setMessages(newMessages);
     setUserInput("");
 
-    await getAIResponse();
+    await getAIResponse(newMessages);
   }, [messages, userInput, getAIResponse]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -200,7 +194,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
                     <AvatarFallback>AC</AvatarFallback>
                   </Avatar>
                   )}
-                  <div className={`rounded-lg p-3 text-sm max-w-[80%] ${message.role === "user" ? "text-primary-foreground bg-primary" : "text-primary"}`}>
+                  <div className={`rounded-lg p-2 text-sm max-w-[80%] ${message.role === "user" ? "text-primary-foreground bg-primary" : "text-primary"}`}>
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       components={{
