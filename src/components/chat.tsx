@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo, useCallback } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from "remark-gfm"
+import { useAuth } from "@/providers/authProvider";
 
 interface Message {
   content: string;
@@ -21,14 +22,7 @@ export function Chat() {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
-
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedUserId = localStorage.getItem('userId');
-    console.log(storedUserId);
-    setUserId(storedUserId);
-  }, []);
+  const { userId } = useAuth();
 
   const getAIResponse = useCallback(async (messages: Message[]) => {
     setLoading(true);

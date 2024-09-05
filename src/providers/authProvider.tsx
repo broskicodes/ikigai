@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 interface AuthProviderContext {
@@ -8,6 +8,8 @@ interface AuthProviderContext {
 const AuthContext = createContext<AuthProviderContext>({
     userId: null,
 });
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [userId, setUserId] = useState<string | null>(null);
