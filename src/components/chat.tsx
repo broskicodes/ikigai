@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from "remark-gfm"
 import { useAuth } from "@/providers/authProvider";
+import { Loading } from "./loading";
+import useWebSocket from "@/hooks/useWs";
 
 interface Message {
   content: string;
@@ -23,6 +25,8 @@ export function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+
+  const { messages: wsMessages, sendMessage } = useWebSocket(`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ws`);
 
   const getAIResponse = useCallback(async (messages: Message[]) => {
     setLoading(true);
@@ -61,7 +65,9 @@ export function Chat() {
     setMessages(newMessages);
     setUserInput("");
 
+    sendMessage(userInput);
     await getAIResponse(newMessages);
+
   }, [messages, userInput, getAIResponse]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -219,6 +225,11 @@ Ikigai is found at the intersection of these elements, representing a balance of
                 </div>
               ))}
             </div>
+            {loading && (
+              <div className="flex items-center justify-center">
+                <Loading />
+              </div>
+            )}
           </div>
           <form onSubmit={handleSubmit} className="border-t bg-muted/40 p-4 lg:p-6">
             <div className="relative">
@@ -229,7 +240,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
                 placeholder="Type your message..."
                 className="min-h-[48px] w-full rounded-2xl border border-neutral-400 bg-background p-3 pr-16 shadow-sm"
               />
-              <Button type="submit" size="icon" className="absolute right-3 top-3">
+              <Button type="submit" disabled={loading} size="icon" className="absolute right-3 top-3">
                 <SendIcon className="h-5 w-5" />
               </Button>
             </div>
