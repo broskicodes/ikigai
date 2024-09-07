@@ -1,10 +1,25 @@
-import { useAuth } from '@/providers/authProvider';
-import { useState, useEffect, useCallback } from 'react';
+import { Data } from '@/components/side-panel';
+import { useAuth } from '@/providers/auth-provider';
+import { useState, useEffect, useCallback, useContext, createContext } from 'react';
 
-const useWebSocket = (url: string) => {
+
+interface WsProviderContext {
+  messages: Data[];
+  sendMessage: (context: string) => void;
+}
+
+const WsContext = createContext<WsProviderContext>({
+  messages: [],
+  sendMessage: () => {},
+});
+
+export const useWebSocket = () => useContext(WsContext);
+
+
+export const WsProvider = ({ children, url }: { children: React.ReactNode, url: string }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<Data[]>([]);
 
   const { userId } = useAuth();
 
@@ -19,7 +34,7 @@ const useWebSocket = (url: string) => {
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       console.log(message);
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages(message.nodes);
     };
 
     ws.onclose = () => {
@@ -45,7 +60,10 @@ const useWebSocket = (url: string) => {
     }
   }, [socket, isConnected]);
 
-  return { isConnected, messages, sendMessage };
+  return (
+    <WsContext.Provider value={{ messages, sendMessage }}>
+      {children}
+    </WsContext.Provider>
+  );
 };
 
-export default useWebSocket;
