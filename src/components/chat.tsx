@@ -60,12 +60,14 @@ export function Chat() {
       return;
     }
 
+    let context = `question: ${messages.at(-1)?.content}\nanswer: ${userInput}`;
+
     let newMessages = messages;
     newMessages.push({ content: userInput, role: "user" });
     setMessages(newMessages);
     setUserInput("");
 
-    sendMessage(userInput);
+    sendMessage(context);
     await getAIResponse(newMessages);
 
   }, [messages, userInput, getAIResponse]);
