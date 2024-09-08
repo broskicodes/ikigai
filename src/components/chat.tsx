@@ -2,11 +2,14 @@
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
-import { useState, useEffect, useMemo, useCallback } from "react"
+import { useState, useEffect, useMemo, useCallback, useRef } from "react"
 import { v4 as uuidv4 } from 'uuid';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from "remark-gfm"
-import { useAuth } from "@/providers/authProvider";
+import { useAuth } from "@/providers/auth-provider";
+import { Loading } from "./loading";
+import { ScrollArea } from "./ui/scroll-area";
+import { useWebSocket } from "@/providers/ws-provider";
 
 interface Message {
   content: string;
@@ -23,6 +26,9 @@ export function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+
+  const { messages: wsMessages, sendMessage } = useWebSocket();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const getAIResponse = useCallback(async (messages: Message[]) => {
     setLoading(true);
@@ -56,12 +62,16 @@ export function Chat() {
       return;
     }
 
+    let context = `question: ${messages.at(-1)?.content}\nanswer: ${userInput}`;
+
     let newMessages = messages;
     newMessages.push({ content: userInput, role: "user" });
     setMessages(newMessages);
     setUserInput("");
 
+    sendMessage(context);
     await getAIResponse(newMessages);
+
   }, [messages, userInput, getAIResponse]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -70,6 +80,12 @@ export function Chat() {
       handleSubmit(e as any);
     }
   };
+
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+    }
+  }, [messages, loading])
 
   useEffect(() => {
     if (!chatId) {
@@ -98,8 +114,8 @@ Ikigai is found at the intersection of these elements, representing a balance of
   }, [chatId]);
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
-      {/* <aside className="hidden w-64 flex-col border-r bg-muted/40 p-4 lg:flex">
+    /*<div className="flex min-h-screen w-full bg-background"> */ 
+      /* <aside className="hidden w-64 flex-col border-r bg-muted/40 p-4 lg:flex">
         <div className="flex items-center justify-between">
           <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
             <MessageCircleIcon className="h-6 w-6" />
@@ -172,71 +188,65 @@ Ikigai is found at the intersection of these elements, representing a balance of
             </Link>
           </div>
         </div>
-      </aside> */}
-      <main className="flex-1">
-        <div className="flex h-full flex-col">
-          <header className="flex items-center justify-between border-b bg-muted/40 p-4 lg:p-6">
-            <div className="flex items-center gap-3">
-              <div>
-                <div className="font-medium">Boku no Ikigai</div>
-                <div className="text-sm text-muted-foreground">nan deska?</div>
-              </div>
-            </div>
-            
-          </header>
-          <div className="flex-1 overflow-auto p-4 lg:p-6">
-            <div className="grid gap-4">
-              {messages.map((message, index) => (
-                <div key={index} className={`flex items-start gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                  {message.role === "assistant" && (
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
+      </aside> */
+      <div className="flex flex-col h-full">
+        <ScrollArea className="flex-1 p-4 lg:p-6" ref={scrollAreaRef}>
+          <div className="grid gap-4">
+            {messages.map((message, index) => (
+              <div key={index} className={`flex items-start gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}>
+                {message.role === "assistant" && (
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
                     <AvatarFallback>AC</AvatarFallback>
                   </Avatar>
-                  )}
-                  <div className={`rounded-lg p-2 text-sm max-w-[80%] ${message.role === "user" ? "text-primary-foreground bg-primary" : "text-primary"}`}>
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        p: ({node, ...props}) => <p className="mb-2" {...props} />,
-                        h2: ({node, ...props}) => <h2 className="text-lg font-bold" {...props} />,
-                        h3: ({node, ...props}) => <h3 className="font-bold" {...props} />,
-                        ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-2" {...props} />,
-                        ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-2" {...props} />,
-                        li: ({node, ...props}) => <li className="mb-1" {...props} />,
-                        hr: ({node, ...props}) => <hr className="mb-2" {...props} />,
-                      }}
-                    >
-                      {message.content}
-                    </ReactMarkdown>
-                  </div>
-                  {message.role === "user" && (
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
-                      <AvatarFallback>AC</AvatarFallback>
-                    </Avatar>
-                  )}
+                )}
+                <div className={`rounded-lg p-2 text-sm max-w-[80%] ${message.role === "user" ? "text-primary-foreground bg-primary" : "bg-muted"}`}>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({node, ...props}) => <p className="mb-2" {...props} />,
+                      h2: ({node, ...props}) => <h2 className="text-lg font-bold mb-2" {...props} />,
+                      h3: ({node, ...props}) => <h3 className="font-bold mb-2" {...props} />,
+                      ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-2" {...props} />,
+                      ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-2" {...props} />,
+                      li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                      hr: ({node, ...props}) => <hr className="mb-2" {...props} />,
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
                 </div>
-              ))}
-            </div>
+                {message.role === "user" && (
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
+                    <AvatarFallback>AC</AvatarFallback>
+                  </Avatar>
+                )}
+              </div>
+            ))}
           </div>
-          <form onSubmit={handleSubmit} className="border-t bg-muted/40 p-4 lg:p-6">
-            <div className="relative">
-              <Textarea
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Type your message..."
-                className="min-h-[48px] w-full rounded-2xl border border-neutral-400 bg-background p-3 pr-16 shadow-sm"
-              />
-              <Button type="submit" size="icon" className="absolute right-3 top-3">
-                <SendIcon className="h-5 w-5" />
-              </Button>
+          {loading && (
+            <div className="flex items-center justify-center mt-4">
+              <Loading />
             </div>
-          </form>
-        </div>
-      </main>
-    </div>
+          )}
+        </ScrollArea>
+        <form onSubmit={handleSubmit} className="border-t bg-muted/40 p-4 lg:p-6">
+          <div className="relative">
+            <Textarea
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Type your message..."
+              className="min-h-[48px] w-full rounded-2xl border border-neutral-400 bg-background p-3 pr-16 shadow-sm"
+            />
+            <Button type="submit" disabled={loading} size="icon" className="absolute right-3 top-3">
+              <SendIcon className="h-5 w-5" />
+            </Button>
+          </div>
+        </form>
+      </div>
+    // </div>
   )
 }
 
