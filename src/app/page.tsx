@@ -11,8 +11,8 @@ export default function Home() {
           <header className="flex items-center justify-between border-b bg-muted/40 p-4 lg:p-6">
             <div className="flex items-center gap-3">
               <div>
-                <div className="font-medium">Boku no Ikigai</div>
-                <div className="text-sm text-muted-foreground">nan desuka?</div>
+                <div className="font-medium">Boku no Ikigai nan desuka?</div>
+                <div className="text-sm text-muted-foreground">A tool to help you find your "reason for being".</div>
               </div>
             </div>
           </header>
