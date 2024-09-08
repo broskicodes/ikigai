@@ -23,6 +23,31 @@ export const WsProvider = ({ children, url }: { children: React.ReactNode, url: 
 
   const { userId } = useAuth();
 
+  const sendMessage = useCallback((context: string) => {
+    if (socket && isConnected) {
+      socket.send(JSON.stringify({
+        context: context,
+        user_id: userId
+      }));
+    } else {
+      console.error('WebSocket is not connected');
+    }
+  }, [socket, isConnected, userId]);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    fetch(`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ikigai/get-nodes`, {
+      headers: {
+        'user-id': userId || '',
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setMessages(data.nodes);
+      });
+  }, [userId]);
+
   useEffect(() => {
     const ws = new WebSocket(url);
 
@@ -48,17 +73,6 @@ export const WsProvider = ({ children, url }: { children: React.ReactNode, url: 
       ws.close();
     };
   }, [url]);
-
-  const sendMessage = useCallback((context: string) => {
-    if (socket && isConnected) {
-      socket.send(JSON.stringify({
-        context: context,
-        user_id: userId
-      }));
-    } else {
-      console.error('WebSocket is not connected');
-    }
-  }, [socket, isConnected]);
 
   return (
     <WsContext.Provider value={{ messages, sendMessage }}>
