@@ -1,3 +1,5 @@
+"use client";
+
 import { Footer } from "@/components/lp/footer";
 import { Header } from "@/components/lp/header";
 import { Hero } from "@/components/lp/hero";
