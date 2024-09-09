@@ -1,4 +1,5 @@
 import { Data } from '@/components/side-panel';
+import { CONSOLE_API_URL } from '@/lib/constants';
 import { useAuth } from '@/providers/auth-provider';
 import { useState, useEffect, useCallback, useContext, createContext } from 'react';
 
@@ -37,7 +38,7 @@ export const WsProvider = ({ children, url }: { children: React.ReactNode, url: 
   useEffect(() => {
     if (!userId) return;
 
-    fetch(`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ikigai/get-nodes`, {
+    fetch(`${CONSOLE_API_URL}/ikigai/get-nodes`, {
       headers: {
         'user-id': userId || '',
       },

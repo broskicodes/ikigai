@@ -10,6 +10,7 @@ import { useAuth } from "@/providers/auth-provider";
 import { Loading } from "./loading";
 import { ScrollArea } from "./ui/scroll-area";
 import { useWebSocket } from "@/providers/ws-provider";
+import { CONSOLE_API_URL } from "@/lib/constants";
 
 interface Message {
   content: string;
@@ -33,7 +34,7 @@ export function Chat() {
   const getAIResponse = useCallback(async (messages: Message[]) => {
     setLoading(true);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ikigai/send-message`, {
+    const response = await fetch(`${CONSOLE_API_URL}/ikigai/send-message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -196,7 +197,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
               <div key={index} className={`flex items-start gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                 {message.role === "assistant" && (
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
+                    <AvatarImage src="/images/placeholder-user.jpg" alt="Avatar" />
                     <AvatarFallback>AC</AvatarFallback>
                   </Avatar>
                 )}

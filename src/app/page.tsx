@@ -1,3 +1,5 @@
+"use client";
+
 import { Footer } from "@/components/lp/footer";
 import { Header } from "@/components/lp/header";
 import { Hero } from "@/components/lp/hero";
@@ -9,7 +11,7 @@ export default function Home() {
     <>
       <Header />
       <Hero />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <Footer />
     </>
   )

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Boku no Ikigai",
+  title: "My Kaizen Life",
   description: "Discover your reason for being",
 };
 
@@ -29,6 +29,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/kaizen-logo.svg" type="image/svg+xml" />
+      </head>
       <body 
         className={cn(
           'antialiased',
