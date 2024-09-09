@@ -5,7 +5,13 @@ import { ReactNode, useState } from "react";
 
 import { useLockBody } from "@/hooks/use-lock-body";
 
-function MobileMenu({ onClose, children }: { onClose: () => void; children: ReactNode }) {
+function MobileMenu({
+  onClose,
+  children,
+}: {
+  onClose: () => void;
+  children: ReactNode;
+}) {
   useLockBody();
 
   return (
@@ -30,7 +36,9 @@ export function MobileNavbar({ children }: { children: ReactNode }) {
         {showMobileMenu ? <X /> : <Menu />}
       </button>
       {showMobileMenu && (
-        <MobileMenu onClose={() => setShowMobileMenu(false)}>{children}</MobileMenu>
+        <MobileMenu onClose={() => setShowMobileMenu(false)}>
+          {children}
+        </MobileMenu>
       )}
     </>
   );

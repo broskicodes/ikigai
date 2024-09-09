@@ -12,7 +12,9 @@ export default function Ikigai() {
             <div className="flex items-center gap-3">
               <div>
                 <div className="font-medium">Boku no Ikigai nan desuka?</div>
-                <div className="text-sm text-muted-foreground">A tool to help you find your "reason for being".</div>
+                <div className="text-sm text-muted-foreground">
+                  A tool to help you find your &quot;reason for being&quot;.
+                </div>
               </div>
             </div>
           </header>

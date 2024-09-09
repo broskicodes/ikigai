@@ -11,16 +11,16 @@ export const metadata: Metadata = {
 };
 
 const fontHeading = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-heading',
-})
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-heading",
+});
 
 const fontBody = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-body',
-})
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-body",
+});
 
 export default function RootLayout({
   children,
@@ -32,13 +32,11 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/kaizen-logo.svg" type="image/svg+xml" />
       </head>
-      <body 
-        className={cn(
-          'antialiased',
-          fontHeading.variable,
-          fontBody.variable
-        )}
-      >{children}</body>
+      <body
+        className={cn("antialiased", fontHeading.variable, fontBody.variable)}
+      >
+        {children}
+      </body>
     </html>
   );
 }
