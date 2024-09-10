@@ -90,6 +90,9 @@ export default function BlogPostPage() {
             p: ({ node, ...props }) => (
               <p className="mb-2 text-lg" {...props} />
             ),
+            a: ({ node, ...props }) => (
+                <a className="text-primary hover:text-primary/70 underline" {...props} />
+              ),
           }}
         >
           {post.content.replace(/\n/g, "  \n")}
