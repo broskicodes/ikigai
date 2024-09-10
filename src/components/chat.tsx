@@ -76,7 +76,7 @@ export function Chat() {
       sendMessage(context);
       await getAIResponse(newMessages);
     },
-    [messages, userInput, getAIResponse],
+    [messages, userInput, getAIResponse, sendMessage],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
