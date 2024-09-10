@@ -28,9 +28,5 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(userId);
-  }, [userId]);
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
