@@ -1,5 +1,5 @@
-import { Data } from "@/components/side-panel";
 import { CONSOLE_API_URL } from "@/lib/constants";
+import { NodeData } from "@/lib/types";
 import { useAuth } from "@/providers/auth-provider";
 import {
   useState,
@@ -10,7 +10,7 @@ import {
 } from "react";
 
 interface WsProviderContext {
-  messages: Data[];
+  messages: NodeData[];
   sendMessage: (context: string) => void;
 }
 
@@ -30,7 +30,7 @@ export const WsProvider = ({
 }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [messages, setMessages] = useState<Data[]>([]);
+  const [messages, setMessages] = useState<NodeData[]>([]);
 
   const { userId } = useAuth();
 

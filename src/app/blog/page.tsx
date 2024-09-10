@@ -1,3 +1,13 @@
+"use client";
+
+import { BlogSection } from "@/components/blog-section";
+import { Header } from "@/components/lp/header";
+
 export default function Blog() {
-  return <></>;
+  return (
+    <div>
+      <Header />
+      <BlogSection />
+    </div>
+  );
 }

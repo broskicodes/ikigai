@@ -5,15 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useWebSocket } from "@/providers/ws-provider";
 import { useEffect, useState } from "react";
-
-export interface Data {
-  id: string;
-  name: string;
-  label: "Skill" | "Interest";
-}
+import { NodeData } from "@/lib/types";
 
 export function SidePanel() {
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<NodeData[]>([]);
   const { messages: wsMessages } = useWebSocket();
 
   useEffect(() => {
