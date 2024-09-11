@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import { CONSOLE_API_URL } from "@/lib/constants";
 import { toast } from "sonner";
 import { useAuth } from "@/providers/auth-provider";
+import posthog from "posthog-js";
 
 export function Hero() {
   const { userId } = useAuth();
@@ -40,8 +41,10 @@ export function Hero() {
       if (response.ok) {
         setUserEmail("");
         setRegistered(true);
+        posthog.capture("newlestter-sub", { email: userEmail });
       } else {
         toast.error("An error occurred while subscribing");
+        posthog.capture("newlestter-sub-failed", { email: userEmail });
       }
 
       setLoading(false);

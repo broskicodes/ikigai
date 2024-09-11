@@ -10,6 +10,7 @@ import { Loading } from "./loading";
 import { ScrollArea } from "./ui/scroll-area";
 import { useWebSocket } from "@/providers/ws-provider";
 import { CONSOLE_API_URL } from "@/lib/constants";
+import posthog from "posthog-js";
 
 interface Message {
   content: string;
@@ -72,6 +73,11 @@ export function Chat() {
       newMessages.push({ content: userInput, role: "user" });
       setMessages(newMessages);
       setUserInput("");
+
+      posthog.capture("message-sent", {
+        context: context,
+        chat_id: chatId,
+      });
 
       sendMessage(context);
       await getAIResponse(newMessages);
