@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/pagination";
 import { CONSOLE_API_URL } from "@/lib/constants";
 import { useAuth } from "@/providers/auth-provider";
+import posthog from "posthog-js";
 
 export const BlogSection = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -96,7 +97,7 @@ export const BlogSection = () => {
               </CardContent>
               <CardFooter className="px-6 pb-6">
                 <Button asChild className="w-full">
-                  <Link href={`/blog/${post.slug}`}>Read More</Link>
+                  <Link onClick={() => posthog.capture("blog-clicked", { post: post.slug })} href={`/blog/${post.slug}`}>Read More</Link>
                 </Button>
               </CardFooter>
             </Card>
