@@ -1,31 +1,63 @@
-import Link from "next/link";
+import {
+  InstagramLogoIcon,
+  TwitterLogoIcon,
+} from "@radix-ui/react-icons";
+
+type Link = {
+text: string;
+url: string;
+};
+
+const links: Link[] = [];
+
+interface Icon {
+icon: JSX.Element;
+url: string;
+}
+
+const icons: Icon[] = [
+{ icon: <InstagramLogoIcon />, url: "https://www.instagram.com/my_kaizen_life/" },
+{ icon: <TwitterLogoIcon />, url: "https://x.com/mykaizen_life" },
+];
 
 export function Footer() {
-  return (
-    <footer className="container mt-10 flex flex-col items-center justify-between gap-6 py-10 sm:flex-row">
-      <p className="text-center text-sm">
-        © 2024 My Kaizen Life, Inc. All rights reserved.
-      </p>
-      <div className="flex items-center gap-5">
-        <Link target="_blank" href="https://instagram.com/my_kaizen_life">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-instagram"
-          >
-            <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-          </svg>{" "}
-        </Link>
+return (
+  <footer className="px-5 lg:px-10 p-5 max-w-7xl mx-auto">
+    <div className="flex flex-col gap-y-5 md:flex-row items-start md:items-center justify-between w-full gap-x-5">
+      <div className="flex items-center gap-x-2">
+        <img
+          className="w-8 h-8 rounded-full"
+          src="/kaizen-logo.svg"
+          alt="magicui-logo"
+        />
+         <h2 className="font-bold text-neutral-900 dark:text-white">
+            My Kaizen
+          </h2>
       </div>
-    </footer>
-  );
+
+      <ul className="flex items-center justify-center gap-x-5">
+        {links.map((link, index) => (
+          <li
+            key={index}
+            className="text-[15px]/normal font-medium text-neutral-400 transition-all duration-100 ease-linear hover:text-neutral-900 hover:underline hover:underline-offset-4 dark:font-medium dark:text-neutral-400 hover:dark:text-neutral-100"
+          >
+            <a href={link.url}>{link.text}</a>
+          </li>
+        ))}
+      </ul>
+      <div className="flex items-center gap-x-4">
+        {icons.map((icon, index) => (
+          <a
+            key={index}
+            href={icon.url}
+            target="_blank"
+            className="text-neutral-500 hover:text-neutral-900 hover:dark:text-white text-xl"
+          >
+            {icon.icon}
+          </a>
+        ))}
+      </div>
+    </div>
+  </footer>
+);
 }

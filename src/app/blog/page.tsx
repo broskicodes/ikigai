@@ -1,6 +1,7 @@
 "use client";
 
 import { BlogSection } from "@/components/blog/blog-section";
+import { Footer } from "@/components/lp/footer";
 import { Header } from "@/components/lp/header";
 
 export default function Blog() {
@@ -8,6 +9,7 @@ export default function Blog() {
     <div>
       <Header />
       <BlogSection />
+      <Footer/>
     </div>
   );
 }

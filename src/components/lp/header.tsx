@@ -9,7 +9,7 @@ export function Header() {
     <header className="container flex items-center justify-between gap-10 py-4">
       <Link href="/" className="flex items-center gap-3">
         <Logo />
-        <span className="font-heading text-xl font-bold">My Kaizen Life</span>
+        <span className="font-heading text-xl font-bold">My Kaizen</span>
       </Link>
       <div className="flex items-center gap-10">
         <nav className="hidden items-center gap-10 md:flex justify-end">
