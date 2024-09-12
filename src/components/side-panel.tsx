@@ -18,7 +18,7 @@ export function SidePanel() {
   }, [wsMessages]);
 
   return (
-    <Card className="w-96 h-full">
+    <Card className="w-96 h-full bg-muted/40">
       <CardHeader>
         <CardTitle className="text-center">Skills & Interests</CardTitle>
       </CardHeader>
@@ -49,8 +49,8 @@ export function SidePanel() {
                   .map((interest, index) => (
                     <Badge
                       key={index}
-                      variant="outline"
-                      className="justify-center"
+                      variant="default"
+                      className="justify-center bg-accent text-accent-foreground text-center"
                     >
                       {interest.name}
                     </Badge>

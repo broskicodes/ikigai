@@ -36,7 +36,11 @@ export default function RootLayout({
         <link rel="icon" href="/kaizen-logo.svg" type="image/svg+xml" />
       </head>
       <body
-        className={cn("antialiased font-sans", fontHeading.variable, fontSans.variable)}
+        className={cn(
+          "antialiased font-sans",
+          fontHeading.variable,
+          fontSans.variable,
+        )}
       >
         {children}
       </body>
