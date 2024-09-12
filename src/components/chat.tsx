@@ -200,7 +200,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
           </div>
         </div>
       </aside> */
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full w-full">
       <ScrollArea className="flex-1 p-4 lg:p-6" ref={scrollAreaRef}>
         <div className="grid gap-4">
           {messages.map((message, index) => (
@@ -211,7 +211,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
               {message.role === "assistant" && (
                 <Avatar className="h-8 w-8">
                   <AvatarImage
-                    src="/images/placeholder-user.jpg"
+                    src="/kaizen-logo.svg"
                     alt="Avatar"
                   />
                   <AvatarFallback>AC</AvatarFallback>

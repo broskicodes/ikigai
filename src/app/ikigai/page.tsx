@@ -20,7 +20,7 @@ export default function Ikigai() {
               </div>
             </div>
           </header>
-          <div className="flex flex-row h-full">
+          <div className="flex flex-row h-full w-full">
             <Chat />
             <SidePanel />
           </div>
