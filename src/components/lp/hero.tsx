@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -9,48 +9,18 @@ import { CONSOLE_API_URL } from "@/lib/constants";
 import { toast } from "sonner";
 import { useAuth } from "@/providers/auth-provider";
 import posthog from "posthog-js";
+import { CaretRightIcon } from "@radix-ui/react-icons";
+// import { CaretRightIcon } from "@radix-ui/react-icons";
 
-export function Hero() {
-  const { userId } = useAuth();
-  const [userEmail, setUserEmail] = useState("");
-  const [registered, setRegistered] = useState(false);
-  const [loading, setLoading] = useState(false);
+interface HeroProps {
+  title: string;
+  description: string;
+  image: string;
+}
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      setLoading(true);
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(userEmail)) {
-        toast.error("Please enter a valid email address");
-        setLoading(false);
-        return;
-      }
-
-      const response = await fetch(`${CONSOLE_API_URL}/users/subscribe`, {
-        headers: {
-          "Content-Type": "application/json",
-          "user-id": userId || "",
-        },
-        method: "POST",
-        body: JSON.stringify({ email: userEmail }),
-      });
-
-      if (response.ok) {
-        setUserEmail("");
-        setRegistered(true);
-        posthog.capture("newlestter-sub", { email: userEmail });
-      } else {
-        toast.error("An error occurred while subscribing");
-        posthog.capture("newlestter-sub-failed", { email: userEmail });
-      }
-
-      setLoading(false);
-    },
-    [userEmail, userId],
-  );
+export function Hero({ title, description, image }: HeroProps) {
+  
+  
 
   return (
     <section className="container flex flex-col items-center gap-10 pb-28 pt-20 sm:gap-14 lg:flex-row">
@@ -65,13 +35,29 @@ export function Hero() {
           <ArrowRight size={16} />
         </Link>
         <h1 className="max-w-2xl text-center font-heading text-4xl font-semibold sm:text-5xl sm:leading-tight lg:text-left">
-          Take actionable steps towards your Ikigai
+          {title}
         </h1>
         <p className="max-w-lg text-center text-lg text-muted-foreground lg:text-left">
-          A weekly newsletter filled with tips to help you discover your passion
-          and do meaningful work.
+          {description}
         </p>
-        {registered ? (
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            // size="lg"
+            variant="outline"
+            asChild
+            className="h-12 cursor-pointer border-border text-base sm:h-14 sm:px-10 rounded-full"
+          >
+            <Link href="#">Learn More</Link>
+          </Button>
+          <Button  asChild className="h-12 cursor-pointer text-base sm:h-14 sm:px-10 rounded-full">
+            <Link href="https://calendly.com/braeden-brhall/kaizen" target="_blank" className="flex flex-row space-x-2">
+              <span>Book a Call</span>
+              <ChevronRightIcon className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </Button>
+        </div>
+
+        {/* {registered ? (
           <p className="text-center text-lg text-primary lg:text-left">
             ✓ Thanks for subscribing!
           </p>
@@ -97,12 +83,12 @@ export function Hero() {
               <span>Subscribe to Newsletter</span>
             </Button>
           </form>
-        )}
+        )} */}
       </div>
       <div className="relative flex-1">
         <Image
           alt="Ikigai chart"
-          src="/images/ikigai-chart.jpg"
+          src={image}
           width={600}
           height={400}
           priority

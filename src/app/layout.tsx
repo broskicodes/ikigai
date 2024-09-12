@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Instrument_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "My Kaizen Life",
-  description: "Discover your reason for being",
+  title: "My Kaizen",
+  description: "Make consistent progress",
 };
 
-const fontHeading = Inter({
+const fontHeading = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-heading",
@@ -20,6 +18,11 @@ const fontBody = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-body",
+});
+
+const fontSans = Inter({
+  variable: "--font-sans",
+  subsets: ["latin"],
 });
 
 export default function RootLayout({
@@ -33,7 +36,7 @@ export default function RootLayout({
         <link rel="icon" href="/kaizen-logo.svg" type="image/svg+xml" />
       </head>
       <body
-        className={cn("antialiased", fontHeading.variable, fontBody.variable)}
+        className={cn("antialiased font-sans", fontHeading.variable, fontSans.variable)}
       >
         {children}
       </body>

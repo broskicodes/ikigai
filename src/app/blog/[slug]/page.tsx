@@ -1,6 +1,7 @@
 "use client";
 
 import { BlogPost } from "@/components/blog/blog-post";
+import { Footer } from "@/components/lp/footer";
 import { Header } from "@/components/lp/header";
 import { useParams } from "next/navigation";
 
@@ -12,6 +13,7 @@ export default function BlogPostPage() {
     <div>
       <Header />
       <BlogPost slug={slug} />
+      <Footer />
     </div>
   );
 }
