@@ -65,6 +65,12 @@ export const BlogSection = () => {
     fetchPosts();
   }, [fetchPosts]);
 
+  if (posts.length === 0) {
+    return (
+      <div className="container mx-auto px-8">Loading...</div>
+  );
+} 
+
   return (
     <section className="py-12 bg-background">
       <div className="container mx-auto px-8">
@@ -97,7 +103,14 @@ export const BlogSection = () => {
               </CardContent>
               <CardFooter className="px-6 pb-6">
                 <Button asChild className="w-full">
-                  <Link onClick={() => posthog.capture("blog-clicked", { post: post.slug })} href={`/blog/${post.slug}`}>Read More</Link>
+                  <Link
+                    onClick={() =>
+                      posthog.capture("blog-clicked", { post: post.slug })
+                    }
+                    href={`/blog/${post.slug}`}
+                  >
+                    Read More
+                  </Link>
                 </Button>
               </CardFooter>
             </Card>

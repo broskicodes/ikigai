@@ -27,12 +27,11 @@ const formSchema = z.object({
 });
 
 export function Newsletter() {
-    const [registered, setRegistered] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [registered, setRegistered] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-//   const [userEmail, setUserEmail] = useState("");
+  //   const [userEmail, setUserEmail] = useState("");
   const { userId } = useAuth();
-
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,7 +43,6 @@ export function Newsletter() {
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      
 
       setLoading(true);
 
@@ -84,17 +82,17 @@ export function Newsletter() {
       <div className="container mx-auto max-w-6xl pt-12 pb-8">
         <div className="grid md:grid-cols-12">
           <div className="col-span-4 pb-4 sm:pb-6">
-            <h2 className="mb-2 text-2xl font-semibold">Subscribe to the Newsletter</h2>
+            <h2 className="mb-2 text-2xl font-semibold">
+              Subscribe to the Newsletter
+            </h2>
             <p>
-              Get the latest tips on how to grow your business and build better products.
+              Get the latest tips on how to grow your business and build better
+              products.
             </p>
           </div>
           <div className="col-span-8">
             <Form {...form}>
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-4"
-              >
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid gap-3 md:grid-cols-3">
                   <FormField
                     control={form.control}
@@ -103,18 +101,29 @@ export function Newsletter() {
                       <FormItem className="space-y-0 md:col-span-2">
                         <FormLabel className="sr-only">Email</FormLabel>
                         <FormControl>
-                          <Input disabled={loading} placeholder="Enter your email" {...field} />
+                          <Input
+                            disabled={loading}
+                            placeholder="Enter your email"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <AnimatedSubscribeButton buttonColor="bg-primary" buttonTextColor="text-white" subscribeStatus={registered} initialText="Subscribe" changeText="Subscribed" />
+                  <AnimatedSubscribeButton
+                    buttonColor="bg-primary"
+                    buttonTextColor="text-white"
+                    subscribeStatus={registered}
+                    initialText="Subscribe"
+                    changeText="Subscribed"
+                  />
                 </div>
               </form>
             </Form>
             <p className="mt-4 text-sm text-gray-500">
-              By subscribing, you agree to receive emails related new blog posts and any product updates. You can opt-out anytime.
+              By subscribing, you agree to receive emails related new blog posts
+              and any product updates. You can opt-out anytime.
             </p>
           </div>
         </div>

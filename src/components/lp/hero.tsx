@@ -19,9 +19,6 @@ interface HeroProps {
 }
 
 export function Hero({ title, description, image }: HeroProps) {
-  
-  
-
   return (
     <section className="container flex flex-col items-center gap-10 pb-28 pt-20 sm:gap-14 lg:flex-row">
       <div className="flex flex-1 flex-col items-center gap-8 lg:items-start lg:gap-10">
@@ -49,8 +46,15 @@ export function Hero({ title, description, image }: HeroProps) {
           >
             <Link href="#">Learn More</Link>
           </Button>
-          <Button  asChild className="h-12 cursor-pointer text-base sm:h-14 sm:px-10 rounded-full">
-            <Link href="https://calendly.com/braeden-brhall/kaizen" target="_blank" className="flex flex-row space-x-2">
+          <Button
+            asChild
+            className="h-12 cursor-pointer text-base sm:h-14 sm:px-10 rounded-full"
+          >
+            <Link
+              href="https://calendly.com/braeden-brhall/kaizen"
+              target="_blank"
+              className="flex flex-row space-x-2"
+            >
               <span>Book a Call</span>
               <ChevronRightIcon className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>

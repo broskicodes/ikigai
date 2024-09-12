@@ -1,8 +1,8 @@
-// interface LogoProps {
-//     size: number
-// }
+interface LogoProps {
+  scale: number;
+}
 
-export const Logo = () => {
+export const Logo = ({ scale }: LogoProps) => {
   return (
     <svg
       fill="none"
@@ -10,6 +10,7 @@ export const Logo = () => {
       xmlns="http://www.w3.org/2000/svg"
       height="40"
       viewBox="0 0 40 40"
+      transform={`scale(${scale})`}
     >
       <circle
         r="10"

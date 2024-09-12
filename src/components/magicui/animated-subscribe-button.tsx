@@ -20,7 +20,6 @@ export const AnimatedSubscribeButton: React.FC<
   changeText,
   initialText,
 }) => {
-
   return (
     <AnimatePresence mode="wait">
       {subscribeStatus ? (
