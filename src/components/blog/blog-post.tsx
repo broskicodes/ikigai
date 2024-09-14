@@ -6,25 +6,34 @@ import { Button } from "@/components/ui/button";
 import { CONSOLE_API_URL } from "@/lib/constants";
 import { useAuth } from "@/providers/auth-provider";
 import { BlogPost as BlogPostType } from "@/lib/types";
+import { Input } from "../ui/input";
+import { toast } from "sonner";
+import posthog from "posthog-js";
 
 export const BlogPost = ({ slug }: { slug: string }) => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [registered, setRegistered] = useState(false);
   const [post, setPost] = useState<BlogPostType | null>(null);
   const router = useRouter();
 
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const fetchPost = useCallback(async () => {
-    if (!userId) return;
+    if (!user) return;
+
+    if (user.email) {
+      setRegistered(true);
+    }
 
     const response = await fetch(`${CONSOLE_API_URL}/blogposts/${slug}`, {
       method: "GET",
       headers: {
-        "user-id": userId || "",
+        "user-id": user.id,
       },
     });
 
     const data = await response.json();
-    console.log(data.content);
 
     setPost((_) => {
       return {
@@ -36,7 +45,44 @@ export const BlogPost = ({ slug }: { slug: string }) => {
         }),
       };
     });
-  }, [userId, slug]);
+  }, [user, slug]);
+
+  const handleSubscribe = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      setLoading(true);
+
+      // const userEmail = form.getValues("email");
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        toast.error("Please enter a valid email address");
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch(`${CONSOLE_API_URL}/users/subscribe`, {
+        headers: {
+          "Content-Type": "application/json",
+          "user-id": user?.id || "",
+        },
+        method: "POST",
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setEmail("");
+        setRegistered(true);
+        posthog.capture("newlestter-sub", { email });
+      } else {
+        toast.error("An error occurred while subscribing");
+        posthog.capture("newlestter-sub-failed", { email });
+      }
+
+      setLoading(false);
+    },
+    [email, user],
+  );
 
   useEffect(() => {
     fetchPost();
@@ -97,6 +143,28 @@ export const BlogPost = ({ slug }: { slug: string }) => {
           {post.content.replace(/\n/g, "  \n")}
         </ReactMarkdown>
       </div>
+      {!registered ? (
+        <div className="mt-12 p-6 bg-[#EDEDBF] rounded-lg">
+          <h3 className="text-2xl font-semibold mb-2">Subscribe to our newsletter</h3>
+          <p className="mb-4">Stay up to date with our latest blog posts and news.</p>
+          <form onSubmit={handleSubscribe} className="flex gap-2">
+            <Input
+              type="text"
+              disabled={loading}
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="flex-grow"
+            />
+            <Button type="submit" disabled={loading}>{loading ? "Subscribing..." : "Subscribe"}</Button>
+          </form>
+        </div>
+      ) : (
+        <div className="mt-12 p-6 bg-[#EDEDBF] rounded-lg">
+          <h3 className="text-xl font-semibold text-primary">{"You're subscribed!"}</h3>
+        </div>
+      )}
     </article>
   );
 };

@@ -24,7 +24,7 @@ import posthog from "posthog-js";
 
 export const BlogSection = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const postsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,17 +37,16 @@ export const BlogSection = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const fetchPosts = useCallback(async () => {
-    if (!userId) return;
+    if (!user) return;
 
     const response = await fetch(`${CONSOLE_API_URL}/blogposts/`, {
       method: "GET",
       headers: {
-        "user-id": userId,
+        "user-id": user.id,
       },
     });
     const data = await response.json();
 
-    console.log(data);
     setPosts((_) => {
       return data.map((post: any) => ({
         ...post,
@@ -59,7 +58,7 @@ export const BlogSection = () => {
       }));
     });
     // setPosts(data);
-  }, [userId]);
+  }, [user]);
 
   useEffect(() => {
     fetchPosts();
