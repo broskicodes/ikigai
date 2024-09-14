@@ -32,7 +32,7 @@ export const WsProvider = ({
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState<NodeData[]>([]);
 
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const sendMessage = useCallback(
     (context: string) => {
@@ -40,29 +40,29 @@ export const WsProvider = ({
         socket.send(
           JSON.stringify({
             context: context,
-            user_id: userId,
+            user_id: user?.id || "",
           }),
         );
       } else {
         console.error("WebSocket is not connected");
       }
     },
-    [socket, isConnected, userId],
+    [socket, isConnected, user],
   );
 
   useEffect(() => {
-    if (!userId) return;
+    if (!user) return;
 
     fetch(`${CONSOLE_API_URL}/ikigai/get-nodes`, {
       headers: {
-        "user-id": userId || "",
+        "user-id": user.id || "",
       },
     })
       .then((res) => res.json())
       .then((data) => {
         setMessages(data.nodes);
       });
-  }, [userId]);
+  }, [user]);
 
   useEffect(() => {
     const ws = new WebSocket(url);

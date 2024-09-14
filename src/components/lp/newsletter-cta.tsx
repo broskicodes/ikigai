@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AnimatedSubscribeButton } from "../magicui/animated-subscribe-button";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/providers/auth-provider";
 import { toast } from "sonner";
 import { CONSOLE_API_URL } from "@/lib/constants";
@@ -30,8 +30,7 @@ export function Newsletter() {
   const [registered, setRegistered] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  //   const [userEmail, setUserEmail] = useState("");
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,7 +56,7 @@ export function Newsletter() {
       const response = await fetch(`${CONSOLE_API_URL}/users/subscribe`, {
         headers: {
           "Content-Type": "application/json",
-          "user-id": userId || "",
+          "user-id": user?.id || "",
         },
         method: "POST",
         body: JSON.stringify({ email: userEmail }),
@@ -74,8 +73,14 @@ export function Newsletter() {
 
       setLoading(false);
     },
-    [form, userId],
+    [form, user],
   );
+
+  useEffect(() => {
+    if (user?.email) {
+      setRegistered(true);
+    }
+  }, [user]);
 
   return (
     <section id="newsletter" className="bg-[#EDEDBF]">
@@ -102,7 +107,7 @@ export function Newsletter() {
                         <FormLabel className="sr-only">Email</FormLabel>
                         <FormControl>
                           <Input
-                            disabled={loading}
+                            disabled={loading || registered}
                             placeholder="Enter your email"
                             {...field}
                           />
@@ -116,7 +121,7 @@ export function Newsletter() {
                     buttonTextColor="text-white"
                     subscribeStatus={registered}
                     initialText="Subscribe"
-                    changeText="Subscribed"
+                    changeText="Subscribed ✓"
                   />
                 </div>
               </form>

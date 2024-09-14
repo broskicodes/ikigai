@@ -26,7 +26,7 @@ export function Chat() {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
-  const { userId } = useAuth();
+  const { user } = useAuth();
 
   const { messages: wsMessages, sendMessage } = useWebSocket();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -39,7 +39,7 @@ export function Chat() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "user-id": userId || "",
+          "user-id": user?.id || "",
         },
         body: JSON.stringify({
           chat_id: chatId,
@@ -56,7 +56,7 @@ export function Chat() {
 
       setLoading(false);
     },
-    [chatId, userId],
+    [chatId, user],
   );
 
   const handleSubmit = useCallback(
@@ -82,7 +82,7 @@ export function Chat() {
       sendMessage(context);
       await getAIResponse(newMessages);
     },
-    [messages, userInput, getAIResponse, sendMessage],
+    [messages, userInput, chatId, getAIResponse, sendMessage],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
