@@ -162,7 +162,7 @@ export const BlogPost = ({ slug }: { slug: string }) => {
         </div>
       ) : (
         <div className="mt-12 p-6 bg-[#EDEDBF] rounded-lg">
-          <h3 className="text-xl font-semibold text-primary">You're subscribed!</h3>
+          <h3 className="text-xl font-semibold text-primary">{"You're subscribed!"}</h3>
         </div>
       )}
     </article>
