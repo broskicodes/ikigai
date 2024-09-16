@@ -17,7 +17,7 @@ export default function Home() {
         image="/images/ikigai-chart.jpg"
       />
       <Pricing />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <Newsletter />
       <Footer />
     </>
