@@ -145,8 +145,12 @@ export const BlogPost = ({ slug }: { slug: string }) => {
       </div>
       {!registered ? (
         <div className="mt-12 p-6 bg-[#EDEDBF] rounded-lg">
-          <h3 className="text-2xl font-semibold mb-2">Subscribe to our newsletter</h3>
-          <p className="mb-4">Stay up to date with our latest blog posts and news.</p>
+          <h3 className="text-2xl font-semibold mb-2">
+            Subscribe to our newsletter
+          </h3>
+          <p className="mb-4">
+            Stay up to date with our latest blog posts and news.
+          </p>
           <form onSubmit={handleSubscribe} className="flex gap-2">
             <Input
               type="text"
@@ -157,12 +161,16 @@ export const BlogPost = ({ slug }: { slug: string }) => {
               required
               className="flex-grow"
             />
-            <Button type="submit" disabled={loading}>{loading ? "Subscribing..." : "Subscribe"}</Button>
+            <Button type="submit" disabled={loading}>
+              {loading ? "Subscribing..." : "Subscribe"}
+            </Button>
           </form>
         </div>
       ) : (
         <div className="mt-12 p-6 bg-[#EDEDBF] rounded-lg">
-          <h3 className="text-xl font-semibold text-primary">{"You're subscribed!"}</h3>
+          <h3 className="text-xl font-semibold text-primary">
+            {"You're subscribed!"}
+          </h3>
         </div>
       )}
     </article>

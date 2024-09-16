@@ -42,10 +42,7 @@ export function Hero({ title, description, image }: HeroProps) {
             asChild
             className="h-12 cursor-pointer text-base sm:h-14 sm:px-10 rounded-full"
           >
-            <Link
-              href="#pricing"
-              className="flex flex-row space-x-2"
-            >
+            <Link href="#pricing" className="flex flex-row space-x-2">
               <span>Book a Call</span>
               <ChevronRightIcon className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>

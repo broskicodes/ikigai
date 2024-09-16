@@ -4,10 +4,20 @@ import { BlogPost } from "@/components/blog/blog-post";
 import { Footer } from "@/components/lp/footer";
 import { Header } from "@/components/lp/header";
 import { useParams } from "next/navigation";
+import posthog from "posthog-js";
+import { useEffect } from "react";
 
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params.slug as string;
+
+  useEffect(() => {
+    if (!slug) return;
+
+    posthog.capture("blog-viewed", {
+      post: slug,
+    });
+  }, [slug]);
 
   return (
     <div>

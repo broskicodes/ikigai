@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <Header />
       <Hero
-        title="Make consistent progress"
+        title="Learn to make consistent progress"
         description="Share your personal/business struggles and get unique insights to help you figure out your next step."
         image="/images/ikigai-chart.jpg"
       />
