@@ -187,7 +187,7 @@ export function Pricing() {
               <Button
                 size="lg"
                 asChild
-                className="mt-10 w-full"
+                className="mt-10 w-full cursor-pointer"
                 onClick={() => handleClick(plan)}
                 disabled={loading}
               >

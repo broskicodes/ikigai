@@ -73,7 +73,7 @@ export function Header() {
               >
                 Blog
               </Link>
-              <Button size="lg" asChild className="mt-2 w-full">
+              <Button size="lg" asChild className="mt-2 w-full cursor-pointer">
                 <Link href="/ikigai" className="cursor-pointer">
                   Discover your Ikigai
                 </Link>
