@@ -72,6 +72,9 @@ export function Pricing() {
 
   const handleClick = useCallback(
     async (plan: Plan) => {
+        if (!user) {
+            return;
+        }
     //   setSelectedPlan(plan);
 
       if (plan.price === 0) {
@@ -81,7 +84,7 @@ export function Pricing() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "user-id": user?.id || "",
+            "user-id": user.id,
           },
           body: JSON.stringify({
             paid: plan.price > 0,
@@ -104,7 +107,7 @@ export function Pricing() {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "user-id": user?.id || "",
+                "user-id": user.id,
               },
               body: JSON.stringify({
                 success_url: `${ENV_URL}?modal=open`,
