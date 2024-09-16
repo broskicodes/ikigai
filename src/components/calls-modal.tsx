@@ -71,7 +71,7 @@ export function CallsModal({
 
     const link = await res.json();
     router.push(link);
-  }, [user]);
+  }, [user, plan, router]);
 
   const handleModalOpen = useCallback(() => {
     if (paidCalls.length < 1) {

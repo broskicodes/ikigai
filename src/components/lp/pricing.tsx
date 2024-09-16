@@ -127,7 +127,7 @@ export function Pricing() {
         }
       }
     },
-    [user, scheduledCalls, paidCalls],
+    [user, scheduledCalls, paidCalls, router],
   );
 
   return (
@@ -153,6 +153,7 @@ export function Pricing() {
       <div className="mt-7 grid w-full grid-cols-1 gap-7 lg:grid-cols-3">
         {plans.map((plan) => (
           <Card
+            key={plan.name}
             className={`relative shadow-lg ${plan.featured ? "border-2 border-primary" : ""}`}
           >
             {plan.featured && (
@@ -174,8 +175,8 @@ export function Pricing() {
                 </span>
               </div>
               <ul className="space-y-2 mt-9 h-32">
-                {plan.features.map((feature) => (
-                  <li className="flex items-center gap-2">
+                {plan.features.map((feature, index) => (
+                  <li className="flex items-center gap-2" key={index}>
                     <Check size={20} className="text-primary" />
                     <span className="text-sm text-muted-foreground">
                       {feature}
