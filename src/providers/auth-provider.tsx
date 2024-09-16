@@ -31,7 +31,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useMemo(() => ({ user }), [user]);
 
   const getUser = useCallback(async (userId: string) => {
-    const user = await fetch(`${CONSOLE_API_URL}/users/${userId}`);
+    const user = await fetch(`${CONSOLE_API_URL}/users/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return await user.json();
   }, []);
 
