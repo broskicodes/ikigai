@@ -135,7 +135,7 @@ export function Pricing() {
 
   return (
     <section
-      id="pricing"
+      id="book"
       className="container flex flex-col items-center gap-6 py-16 sm:gap-7 bg-[#EDEDBF]"
     >
       <CallsModal
