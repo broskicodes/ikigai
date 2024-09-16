@@ -1,6 +1,13 @@
 import { CONSOLE_API_URL } from "@/lib/constants";
 import posthog from "posthog-js";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export interface User {
@@ -42,7 +49,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const user = await getUser(userId);
       setUser(user);
     })();
-
   }, [getUser]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

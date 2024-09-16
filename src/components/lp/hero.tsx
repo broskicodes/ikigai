@@ -2,15 +2,7 @@ import { ArrowRight, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useCallback, useState } from "react";
-import { CONSOLE_API_URL } from "@/lib/constants";
-import { toast } from "sonner";
-import { useAuth } from "@/providers/auth-provider";
-import posthog from "posthog-js";
-import { CaretRightIcon } from "@radix-ui/react-icons";
-// import { CaretRightIcon } from "@radix-ui/react-icons";
 
 interface HeroProps {
   title: string;
@@ -50,44 +42,12 @@ export function Hero({ title, description, image }: HeroProps) {
             asChild
             className="h-12 cursor-pointer text-base sm:h-14 sm:px-10 rounded-full"
           >
-            <Link
-              href="https://calendly.com/braeden-brhall/kaizen"
-              target="_blank"
-              className="flex flex-row space-x-2"
-            >
+            <Link href="#pricing" className="flex flex-row space-x-2">
               <span>Book a Call</span>
               <ChevronRightIcon className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </Button>
         </div>
-
-        {/* {registered ? (
-          <p className="text-center text-lg text-primary lg:text-left">
-            ✓ Thanks for subscribing!
-          </p>
-        ) : (
-          <form
-            className="flex w-full max-w-lg flex-col gap-2 sm:flex-row sm:items-center"
-            onSubmit={handleSubmit}
-          >
-            <Input
-              type="text"
-              value={userEmail}
-              disabled={loading}
-              onChange={(e) => setUserEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="h-12 border-border bg-card px-6 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 sm:h-14 sm:flex-1"
-            />
-            <Button
-              size="default"
-              className="h-12 cursor-pointer text-base sm:h-14"
-              type="submit"
-              disabled={loading}
-            >
-              <span>Subscribe to Newsletter</span>
-            </Button>
-          </form>
-        )} */}
       </div>
       <div className="relative flex-1">
         <Image

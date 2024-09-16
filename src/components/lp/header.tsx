@@ -11,7 +11,7 @@ export function Header() {
       width: 0,
       height: 0,
     });
-  
+
     useEffect(() => {
       function handleResize() {
         setWindowSize({
@@ -19,14 +19,14 @@ export function Header() {
           height: window.innerHeight,
         });
       }
-      
+
       window.addEventListener("resize", handleResize);
-      
+
       handleResize();
-      
+
       return () => window.removeEventListener("resize", handleResize);
     }, []);
-  
+
     return windowSize;
   }
 
@@ -65,22 +65,22 @@ export function Header() {
           </div>
         </div>
         <MobileNavbar>
-            <div className="rounded-b-lg bg-background pt-2 pb-4 container text-foreground shadow-xl">
-              <nav className="flex flex-col gap-1 pt-0">
-                <Link
-                  href="/blog"
-                  className="flex w-full cursor-pointer items-center rounded-md p-2 font-medium text-muted-foreground hover:text-foreground"
-                >
-                  Blog
+          <div className="rounded-b-lg bg-background pt-2 pb-4 container text-foreground shadow-xl">
+            <nav className="flex flex-col gap-1 pt-0">
+              <Link
+                href="/blog"
+                className="flex w-full cursor-pointer items-center rounded-md p-2 font-medium text-muted-foreground hover:text-foreground"
+              >
+                Blog
+              </Link>
+              <Button size="lg" asChild className="mt-2 w-full cursor-pointer">
+                <Link href="/ikigai" className="cursor-pointer">
+                  Discover your Ikigai
                 </Link>
-                <Button size="lg" asChild className="mt-2 w-full">
-                  <Link href="/ikigai" className="cursor-pointer">
-                    Discover your Ikigai
-                  </Link>
-                </Button>
-              </nav>
-            </div>
-          </MobileNavbar>
+              </Button>
+            </nav>
+          </div>
+        </MobileNavbar>
       </div>
     </header>
   );

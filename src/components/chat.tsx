@@ -210,10 +210,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
             >
               {message.role === "assistant" && (
                 <Avatar className="h-8 w-8">
-                  <AvatarImage
-                    src="/kaizen-logo.svg"
-                    alt="Avatar"
-                  />
+                  <AvatarImage src="/kaizen-logo.svg" alt="Avatar" />
                   <AvatarFallback>AC</AvatarFallback>
                 </Avatar>
               )}

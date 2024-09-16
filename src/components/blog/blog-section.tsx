@@ -65,10 +65,8 @@ export const BlogSection = () => {
   }, [fetchPosts]);
 
   if (posts.length === 0) {
-    return (
-      <div className="container mx-auto px-8">Loading...</div>
-  );
-} 
+    return <div className="container mx-auto px-8">Loading...</div>;
+  }
 
   return (
     <section className="py-12 bg-background">

@@ -7,6 +7,7 @@ import { PropsWithChildren } from "react";
 import { Toaster } from "sonner";
 import { PostHogProvider } from "posthog-js/react";
 import posthog from "posthog-js";
+import { CallsProvider } from "@/providers/calls-provider";
 
 const PostHogPageView = dynamic(
   () => import("../components/posthog-page-view"),
@@ -27,10 +28,12 @@ export default function Template({ children }: PropsWithChildren) {
   return (
     <PostHogProvider client={posthog}>
       <AuthProvider>
-        <WsProvider url={`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ws`}>
-          <PostHogPageView />
-          {children}
-        </WsProvider>
+        <CallsProvider>
+          <WsProvider url={`${process.env.NEXT_PUBLIC_CONSOLE_API_URL}/ws`}>
+            <PostHogPageView />
+            {children}
+          </WsProvider>
+        </CallsProvider>
         <Toaster />
       </AuthProvider>
     </PostHogProvider>
