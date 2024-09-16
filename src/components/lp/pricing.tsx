@@ -38,8 +38,8 @@ export function Pricing() {
       featured: false,
       features: [
         "A single call to gain clarity",
-        "Fridays only",
         "Limited availability (4 slots per week)",
+        "Fridays only",
       ],
       // link: ""
     },
