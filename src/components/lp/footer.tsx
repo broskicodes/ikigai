@@ -22,7 +22,7 @@ const icons: Icon[] = [
 
 export function Footer() {
   return (
-    <footer className="px-5 lg:px-10 p-5 max-w-7xl mx-auto">
+    <footer className="px-5 lg:px-10 p-5 x-full">
       <div className="flex  gap-y-5 flex-row  items-center justify-between w-full gap-x-5">
         <div className="flex items-center gap-x-2">
           <img

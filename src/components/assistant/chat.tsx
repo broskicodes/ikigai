@@ -6,19 +6,16 @@ import { v4 as uuidv4 } from "uuid";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useAuth } from "@/providers/auth-provider";
-import { Loading } from "./loading";
-import { ScrollArea } from "./ui/scroll-area";
+import { Loading } from "@/components/loading";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useWebSocket } from "@/providers/ws-provider";
 import { CONSOLE_API_URL } from "@/lib/constants";
 import posthog from "posthog-js";
+import { Flavour, usePersona } from "@/providers/persona-provider";
 
 interface Message {
   content: string;
   role: "user" | "assistant";
-}
-
-enum Flavour {
-  IKIGAI = "ikigai",
 }
 
 export function Chat() {
@@ -27,25 +24,30 @@ export function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const { selectedPersona } = usePersona();
 
   const { messages: wsMessages, sendMessage } = useWebSocket();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const getAIResponse = useCallback(
     async (messages: Message[]) => {
+      if (!user) {
+        return;
+      }
+
       setLoading(true);
 
       const response = await fetch(`${CONSOLE_API_URL}/ikigai/send-message`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "user-id": user?.id || "",
+          "user-id": user.id,
         },
         body: JSON.stringify({
           chat_id: chatId,
           model: "gpt-4o",
           messages: messages,
-          flavour: Flavour.IKIGAI,
+          flavour: selectedPersona!.flavour,
         }),
       });
 
@@ -56,7 +58,7 @@ export function Chat() {
 
       setLoading(false);
     },
-    [chatId, user],
+    [chatId, user, selectedPersona],
   );
 
   const handleSubmit = useCallback(
@@ -124,85 +126,14 @@ Ikigai is found at the intersection of these elements, representing a balance of
     }
   }, [chatId]);
 
+  // if (!selectedPersona) {
+  //   return <div>No persona selected</div>;
+  // }
+
   return (
-    /*<div className="flex min-h-screen w-full bg-background"> */
-    /* <aside className="hidden w-64 flex-col border-r bg-muted/40 p-4 lg:flex">
-        <div className="flex items-center justify-between">
-          <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
-            <MessageCircleIcon className="h-6 w-6" />
-            <span>Chat App</span>
-          </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
-                  <AvatarFallback>AC</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div className="flex-1 overflow-auto">
-          <div className="mt-4 space-y-2">
-            <div className="px-2 text-xs font-medium text-muted-foreground">Chats</div>
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-md bg-accent p-2 text-accent-foreground transition-colors hover:bg-accent/80"
-              prefetch={false}
-            >
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
-                <AvatarFallback>AC</AvatarFallback>
-              </Avatar>
-              <div className="flex-1 truncate">
-                <div className="font-medium">John Doe</div>
-                <div className="text-sm text-muted-foreground">Hey, how's it going?</div>
-              </div>
-              <Badge variant="secondary" className="shrink-0">
-                2
-              </Badge>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted"
-              prefetch={false}
-            >
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
-                <AvatarFallback>AC</AvatarFallback>
-              </Avatar>
-              <div className="flex-1 truncate">
-                <div className="font-medium">Jane Smith</div>
-                <div className="text-sm text-muted-foreground">Did you see the new design?</div>
-              </div>
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-3 rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted"
-              prefetch={false}
-            >
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder-user.jpg" alt="Avatar" />
-                <AvatarFallback>AC</AvatarFallback>
-              </Avatar>
-              <div className="flex-1 truncate">
-                <div className="font-medium">Michael Johnson</div>
-                <div className="text-sm text-muted-foreground">Let's discuss the project update.</div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </aside> */
-    <div className="flex flex-col h-full w-full">
-      <ScrollArea className="flex-1 p-4 lg:p-6" ref={scrollAreaRef}>
-        <div className="grid gap-4">
+    <div className="flex flex-col w-full">
+      <ScrollArea className="flex-grow flex flex-col p-4 lg:p-6" ref={scrollAreaRef}>
+        <div className="grid gap-4 h-full">
           {messages.map((message, index) => (
             <div
               key={index}
@@ -210,7 +141,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
             >
               {message.role === "assistant" && (
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/kaizen-logo.svg" alt="Avatar" />
+                  <AvatarImage src={selectedPersona?.image} alt="Avatar" />
                   <AvatarFallback>AC</AvatarFallback>
                 </Avatar>
               )}
@@ -281,7 +212,6 @@ Ikigai is found at the intersection of these elements, representing a balance of
         </div>
       </form>
     </div>
-    // </div>
   );
 }
 
