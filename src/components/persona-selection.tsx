@@ -15,9 +15,37 @@ const aiPersonas: Persona[] = [
   {
     name: "Discover your Ikigai",
     description:
-      "Answer guiding questions about the 4 pillars to discover your Ikigai.",
+      "Answer questions about your skills and interests to discover your Ikigai.",
     image: "/images/ikigai.png",
     flavour: Flavour.IKIGAI,
+    firstMessage: {
+      role: "assistant",
+      content: `## Ikigai
+----
+A Japanese concept meaning **"reason for being."** It combines four elements:
+
+1. ### What you love
+2. ### What the world needs
+3. ### What you're good at
+4. ### What you can be paid for
+
+Ikigai is found at the intersection of these elements, representing a balance of passion, mission, profession, and vocation.
+
+**I'm here to help you find yours!** Ready?`,
+    }
+  },
+  {
+    name: "Find your next brilliant idea",
+    description:
+      "Brainstorm with an AI to find your next brilliant idea.",
+    image: "/images/ikigai.png",
+    flavour: Flavour.IDEA_BUDDY,
+    firstMessage: {
+      role: "assistant",
+      content: `## Idea Buddy
+----
+I'm here to help you find your next brilliant idea. Ready?`,
+    }
   },
 ];
 

@@ -12,11 +12,7 @@ import { useWebSocket } from "@/providers/ws-provider";
 import { CONSOLE_API_URL } from "@/lib/constants";
 import posthog from "posthog-js";
 import { Flavour, usePersona } from "@/providers/persona-provider";
-
-interface Message {
-  content: string;
-  role: "user" | "assistant";
-}
+import { Message } from "@/lib/types";
 
 export function Chat() {
   const [chatId, setChatId] = useState<string | null>(null);
@@ -28,6 +24,7 @@ export function Chat() {
 
   const { messages: wsMessages, sendMessage } = useWebSocket();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const getAIResponse = useCallback(
     async (messages: Message[]) => {
@@ -105,35 +102,34 @@ export function Chat() {
       setChatId(uuidv4());
     }
 
-    if (chatId) {
-      setMessages([
-        {
-          role: "assistant",
-          content: `## Ikigai
-----
-A Japanese concept meaning **"reason for being."** It combines four elements:
-
-1. ### What you love
-2. ### What the world needs
-3. ### What you're good at
-4. ### What you can be paid for
-
-Ikigai is found at the intersection of these elements, representing a balance of passion, mission, profession, and vocation.
-
-**I'm here to help you find yours!** Ready?`,
-        },
-      ]);
+    if (chatId && selectedPersona) {
+      setMessages([selectedPersona.firstMessage]);
     }
-  }, [chatId]);
+  }, [chatId, selectedPersona]);
 
   // if (!selectedPersona) {
   //   return <div>No persona selected</div>;
   // }
 
+  useEffect(() => {
+    const updateScrollAreaHeight = () => {
+      if (chatContainerRef.current && scrollAreaRef.current) {
+        const containerHeight = chatContainerRef.current.clientHeight;
+        const formHeight = chatContainerRef.current.lastElementChild?.clientHeight || 0;
+        scrollAreaRef.current.style.maxHeight = `${containerHeight - formHeight}px`;
+      }
+    };
+
+    updateScrollAreaHeight();
+    window.addEventListener('resize', updateScrollAreaHeight);
+
+    return () => window.removeEventListener('resize', updateScrollAreaHeight);
+  }, []);
+
   return (
-    <div className="flex flex-col w-full">
+    <div ref={chatContainerRef} className="flex flex-col h-full w-full overflow-hidden">
       <ScrollArea className="flex-grow flex flex-col p-4 lg:p-6" ref={scrollAreaRef}>
-        <div className="grid gap-4 h-full">
+        <div className="space-y-4">
           {messages.map((message, index) => (
             <div
               key={index}
@@ -146,7 +142,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
                 </Avatar>
               )}
               <div
-                className={`rounded-lg p-2 text-sm max-w-[80%] ${message.role === "user" ? "text-primary-foreground bg-primary" : "bg-muted"}`}
+                className={`rounded-lg p-2 text-sm ${message.role === "user" ? "text-primary-foreground bg-primary max-w-[80%]" : "bg-muted"}`}
               >
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}

@@ -1,5 +1,6 @@
 "use client";
 
+import { Message } from "@/lib/types";
 import {
   createContext,
   useContext,
@@ -11,6 +12,7 @@ import {
 
 export enum Flavour {
   IKIGAI = "ikigai",
+  IDEA_BUDDY = "idea_buddy",
 }
 
 export interface Persona {
@@ -18,6 +20,7 @@ export interface Persona {
   description: string;
   image: string;
   flavour: Flavour;
+  firstMessage: Message;
 }
 
 interface PersonaProviderContext {
