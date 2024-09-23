@@ -75,13 +75,13 @@ export function CallsModal({
 
   const handleModalOpen = useCallback(() => {
     if (paidCalls.length < 1) {
-        return;
+      return;
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const modalParam = urlParams.get('modal');
-    
-    if (modalParam === 'open') {
+    const modalParam = urlParams.get("modal");
+
+    if (modalParam === "open") {
       setOpen(true);
     }
   }, [paidCalls]);
