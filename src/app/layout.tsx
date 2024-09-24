@@ -3,9 +3,46 @@ import { Instrument_Sans, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
+export type SiteConfig = {
+  name: string;
+  description: string;
+  url: string;
+  ogImage: string;
+  links: {
+    twitter: string;
+  };
+};
+
+const siteConfig: SiteConfig = {
+  name: "My Kaizen",
+  description: "We provide mentorship and community to help entrepreneurs reach their goals faster.",
+  url: "https://mykaizen.life/",
+  ogImage: "https://mykaizen.life/images/ikigai-chart.png",
+  links: {
+    twitter: "https://x.com/mykaizen_life",
+  },
+};
+
+
 export const metadata: Metadata = {
-  title: "My Kaizen",
-  description: "Make consistent progress",
+  title: `${siteConfig.name} | Helping entrepreneurs do meaningful work`,
+  description: siteConfig.description,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [siteConfig.ogImage],
+    },
+    twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    creator: "@_reweb",
+    },
 };
 
 const fontHeading = Instrument_Sans({
