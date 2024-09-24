@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 import { StarFilledIcon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
 
 export const Highlight = ({
   children,
@@ -12,7 +13,7 @@ export const Highlight = ({
   return (
     <span
       className={cn(
-        "bg-cyan-600/20 p-1 py-0.5 font-bold text-cyan-600 dark:bg-cyan-600/20 dark:text-cyan-600",
+        "bg-[#62786D]/20 px-0.5 py-0.5 font-bold text-[#62786D] dark:bg-[#62786D]/20 dark:text-[#62786D]",
         className,
       )}
     >
@@ -49,14 +50,14 @@ export const TestimonialCard = ({
     )}
     {...props} // Spread the rest of the props here
   >
-    <div className="select-none text-sm font-normal text-neutral-700 dark:text-neutral-400">
+    <div className="select-none text-sm font-normal text-foreground dark:text-foreground/50">
       {description}
       <div className="flex flex-row py-1">
-        <StarFilledIcon className="size-4 text-yellow-500" />
-        <StarFilledIcon className="size-4 text-yellow-500" />
-        <StarFilledIcon className="size-4 text-yellow-500" />
-        <StarFilledIcon className="size-4 text-yellow-500" />
-        <StarFilledIcon className="size-4 text-yellow-500" />
+        <StarFilledIcon className="size-4 text-primary" />
+        <StarFilledIcon className="size-4 text-primary" />
+        <StarFilledIcon className="size-4 text-primary" />
+        <StarFilledIcon className="size-4 text-primary" />
+        <StarFilledIcon className="size-4 text-primary" />
       </div>
     </div>
 
@@ -68,8 +69,8 @@ export const TestimonialCard = ({
       />
 
       <div>
-        <p className="font-medium text-neutral-500">{name}</p>
-        <p className="text-xs font-normal text-neutral-400">{role}</p>
+        <p className="font-medium text-foreground">{name}</p>
+        <p className="text-xs font-normal text-foreground/50">{role}</p>
       </div>
     </div>
   </div>
@@ -78,57 +79,58 @@ export const TestimonialCard = ({
 const testimonials = [
   {
     name: "Mattia Pomelli",
-    role: "Co founder of Reweb",
+    role: "Co-Founder of Reweb",
     img: "https://unavatar.io/x/mattiapomelli",
     description: (
       <p>
-        {"Whenever I feel stuck I reach out to Braeden. Talking with him is always super helpful to get clarity on what I want. "}
+        {"Whenever I feel stuck I reach out to Braeden. Talking with him is always super helpful to get clarity on what I want. It's crazy how much having someone that "}
         <Highlight>
-          {"It's crazy how much having someone that asks you the right questions and is open to listen to you can help you figure shit out."}
+          {"asks you the right questions and is open to listen to you"}
         </Highlight>
-        {" He's the guru."}
+        {" can help you figure shit out. He's the guru."}
       </p>
     ),
   },
-  // {
-  //   name: "Samantha Lee",
-  //   role: "Marketing Director at NextGen Solutions",
-  //   img: "https://randomuser.me/api/portraits/women/12.jpg",
-  //   description: (
-  //     <p>
-  //       Implementing #AIStream's customer prediction model has drastically
-  //       improved our targeting strategy.
-  //       <Highlight>Seeing a 50% increase in conversion rates!</Highlight> Highly
-  //       recommend their solutions.
-  //     </p>
-  //   ),
-  // },
-  // {
-  //   name: "Raj Patel",
-  //   role: "Founder & CEO at StartUp Grid",
-  //   img: "https://randomuser.me/api/portraits/men/45.jpg",
-  //   description: (
-  //     <p>
-  //       As a startup, we need to move fast and stay ahead. #CodeAI's automated
-  //       coding assistant helps us do just that.
-  //       <Highlight>Our development speed has doubled.</Highlight> Essential tool
-  //       for any startup.
-  //     </p>
-  //   ),
-  // },
-  // {
-  //   name: "Emily Chen",
-  //   role: "Product Manager at Digital Wave",
-  //   img: "https://randomuser.me/api/portraits/women/83.jpg",
-  //   description: (
-  //     <p>
-  //       #VoiceGen's AI-driven voice synthesis has made creating global products
-  //       a breeze.
-  //       <Highlight>Localization is now seamless and efficient.</Highlight> A
-  //       must-have for global product teams.
-  //     </p>
-  //   ),
-  // },
+  {
+    name: "Kirsten Pomales",
+    role: "Founder & CEO of Revyou",
+    img: "https://unavatar.io/x/kirstenrpomales",
+    description: (
+      <p>
+        <Highlight>
+          {"Braeden is a great soundboard."}
+        </Highlight>
+        {" He's been so helpful in talking through issues I've tackled in my business and always has good questions to help me approach things a different way. Thanks Braeden!"}
+      </p>
+    ),
+  },
+  {
+    name: "Rostyslav Dzhohola",
+    role: "Creator of the AI Unscripted podcast",
+    img: "https://unavatar.io/x/dzhohola",
+    description: (
+      <p>
+        {"I know Braeden from Buildspace time. He's had several successful projects. During our call, I received interesting directions that I can take my project and a couple of "}
+        <Highlight>
+        {"useful suggestions for the iteration process and MVP development."}
+        </Highlight>
+      </p>
+    ),
+  },
+  {
+    name: "Aviral Sharma",
+    role: "Founder of Skan - AI skin care",
+    img: "https://unavatar.io/x/aviralgod",
+    description: (
+      <p>
+        {"It was an absolute pleasure chatting with Braeden! I started the call with a lack of direction, but after 5-10 minutes of listening to my problems, "}
+        <Highlight>
+          {"Braeden was able to dissect my issues and help me realize what I really needed to focus on."}
+        </Highlight>
+        {" Some of the advice he gave me is already starting to work and increase our conversion."}
+      </p>
+    ),
+  },
   // {
   //   name: "Michael Brown",
   //   role: "Data Scientist at FinTech Innovations",
@@ -258,6 +260,38 @@ const testimonials = [
 ];
 
 export function Testimonials() {
+  const [numGroups, setNumGroups] = useState(3);
+  const [testimonialGroups, setTestimonialGroups] = useState<TestimonialCardProps[][]>([]);
+
+  useEffect(() => {
+    const updateNumGroups = () => {
+      // if (window.innerWidth >= 1536) {
+      //   setNumGroups(4); // 2xl
+      // } else if (window.innerWidth >= 1280) {
+      //   setNumGroups(3); // xl
+      // } else 
+      if (window.innerWidth >= 768) {
+        setNumGroups(2); // md
+      } else {
+        setNumGroups(1); // sm and below
+      }
+    };
+
+    window.addEventListener('resize', updateNumGroups);
+    updateNumGroups(); // Initial call to set the number of groups based on the current window size
+
+    return () => window.removeEventListener('resize', updateNumGroups);
+  }, []);
+
+  useEffect(() => {
+    const groupSize = Math.ceil(testimonials.length / numGroups);
+    const newTestimonialGroups = Array.from({ length: numGroups }, (_, i) =>
+      testimonials.slice(i * groupSize, ((i + 1) * groupSize))
+    );
+
+    setTestimonialGroups(newTestimonialGroups);
+  }, [numGroups]);
+
   return (
     <section id="testimonials">
       <div className="py-14">
@@ -271,25 +305,21 @@ export function Testimonials() {
             </h2>
           </div>
           <div className="relative mt-6 max-h-[650px] overflow-hidden">
-            <div className="gap-4 md:columns-2 xl:columns-3 2xl:columns-4">
-              {Array(Math.ceil(testimonials.length / 3))
-                .fill(0)
-                .map((_, i) => (
-                  <Marquee
-                    vertical
-                    key={i}
-                    reverse={i === 2}
-                    className={cn({
-                      "[--duration:30s]": 2 / i >= 1,
-                      // "[--duration:30s]": i === 2,
-                      "[--duration:70s]": i === 3,
-                    })}
-                  >
-                    {testimonials.slice(i * 3, (i + 1) * 3).map((card, idx) => (
-                      <TestimonialCard {...card} key={idx} />
-                    ))}
-                  </Marquee>
-                ))}
+            <div className={`gap-4 ${numGroups === 1 ? "columns-1" : numGroups === 2 ? "columns-2" : numGroups === 3 ? "columns-3" : "columns-4"}`}>
+              {testimonialGroups.map((group, i) => (
+                <Marquee
+                  vertical
+                  key={i}
+                  reverse={i % 2 === 0}
+                  className={cn(
+                    "[--duration:20s]"
+                  )}
+                >
+                  {group.map((card, idx) => (
+                    <TestimonialCard {...card} key={idx} />
+                  ))}
+                </Marquee>
+              ))}
             </div>
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 w-full bg-gradient-to-t from-background from-20% dark:from-black"></div>
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 w-full bg-gradient-to-b from-background from-20% dark:from-black"></div>

@@ -48,7 +48,7 @@ const plans: Plan[] = [
   //   ],
   // },
   {
-    name: "The Kaizen program",
+    name: "The Kaizen Program",
     description: "Make consistent progress week over week",
     price: 49,
     originalPrice: 99,
@@ -185,7 +185,7 @@ export function Pricing() {
                   {plan.features.map((feature, index) => (
                     <li className="flex items-center gap-2" key={index}>
                       <Check size={20} className="text-primary" />
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-base md:text-lg text-muted-foreground">
                         {feature}
                       </span>
                     </li>
