@@ -17,7 +17,7 @@ const siteConfig: SiteConfig = {
   name: "My Kaizen",
   description: "We provide mentorship and community to help entrepreneurs reach their goals faster.",
   url: "https://mykaizen.life/",
-  ogImage: "https://mykaizen.life/images/ikigai-chart.png",
+  ogImage: "https://mykaizen.life/images/ikigai-chart.jpg",
   links: {
     twitter: "https://x.com/mykaizen_life",
   },
@@ -25,7 +25,7 @@ const siteConfig: SiteConfig = {
 
 
 export const metadata: Metadata = {
-  title: `${siteConfig.name} | Helping entrepreneurs do meaningful work`,
+  title: `${siteConfig.name} - Helping entrepreneurs do meaningful work`,
   description: siteConfig.description,
   openGraph: {
     type: "website",
