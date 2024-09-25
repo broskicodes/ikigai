@@ -131,21 +131,20 @@ const testimonials = [
       </p>
     ),
   },
-  // {
-  //   name: "Michael Brown",
-  //   role: "Data Scientist at FinTech Innovations",
-  //   img: "https://randomuser.me/api/portraits/men/1.jpg",
-  //   description: (
-  //     <p>
-  //       Leveraging #DataCrunch's AI for our financial models has given us an
-  //       edge in predictive accuracy.
-  //       <Highlight>
-  //         Our investment strategies are now powered by real-time data analytics.
-  //       </Highlight>{" "}
-  //       Transformative for the finance industry.
-  //     </p>
-  //   ),
-  // },
+  {
+    name: "Aditya Gayakwad",
+    role: "Data Scientist at FinTech Innovations",
+    img: "https://unavatar.io/x/avg_aditya",
+    description: (
+      <p>
+        {"Before talking to him I was working on multiple side projects simultaneously thinking at least one would scale. "}
+        <Highlight>
+          {"Braeden helped me figure out which one to focus on."}
+        </Highlight>
+        {" That side project became my main project and eventually a startup. Now we are getting good responses and feedback and are launching the beta version soon. Also I like his jawline."}
+      </p>
+    ),
+  },
   // {
   //   name: "Linda Wu",
   //   role: "VP of Operations at LogiChain Solutions",
