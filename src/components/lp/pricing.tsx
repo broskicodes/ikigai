@@ -239,7 +239,7 @@ export function Pricing() {
                   {plan.features.map((feature, index) => (
                     <li className="flex items-center gap-2" key={index}>
                       <Check size={20} className="text-primary" />
-                      <span className="text-base md:text-lg text-muted-foreground">
+                      <span className="text-base text-muted-foreground">
                         {feature}
                       </span>
                     </li>
@@ -277,7 +277,7 @@ export function Pricing() {
                       Loading...
                     </span>
                   ) : (
-                    <span className="text-lg font-extrabold">
+                    <span className="text-lg font-bold">
                       Book FREE Onboarding Call
                     </span>
                   )}
