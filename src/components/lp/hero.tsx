@@ -15,7 +15,7 @@ export function Hero({ title, description, image }: HeroProps) {
     <section className="container flex flex-col items-center gap-10 pb-28 pt-20 sm:gap-14 lg:flex-row">
       <div className="flex flex-1 flex-col items-center gap-8 lg:items-start lg:gap-10">
         <Link
-          href="/ikigai"
+          href="/assistant"
           className="flex cursor-pointer items-center gap-1 rounded-full border px-3 py-0.5 bg-accent hover:bg-accent/80"
         >
           <span className="text-sm text-secondary-foreground">

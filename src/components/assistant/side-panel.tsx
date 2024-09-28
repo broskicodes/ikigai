@@ -18,7 +18,7 @@ export function SidePanel() {
   }, [wsMessages]);
 
   return (
-    <Card className="w-96 h-full bg-muted/40">
+    <Card className="flex flex-col w-96 h-full bg-muted/40">
       <CardHeader>
         <CardTitle className="text-center">Skills & Interests</CardTitle>
       </CardHeader>

@@ -1,3 +1,8 @@
+export interface Message {
+  content: string;
+  role: "user" | "assistant";
+}
+
 export interface NodeData {
   id: string;
   name: string;

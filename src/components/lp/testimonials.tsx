@@ -92,6 +92,20 @@ const testimonials = [
     ),
   },
   {
+    name: "Matthew Molinar",
+    role: "Buildspace Grad",
+    img: "/images/molinar.webp",
+    description: (
+      <p>
+        {"Braeden is very insightful and can advise you on how to get off zero very quickly. "}
+        <Highlight>
+          {"He speaks with practical real life experience from being a founder"}
+        </Highlight>
+        {" and it will save you a lot of time on your journey!"}
+      </p>
+    ),
+  },
+  {
     name: "Kirsten Pomales",
     role: "Founder & CEO of Revyou",
     img: "https://unavatar.io/x/kirstenrpomales",
@@ -133,7 +147,7 @@ const testimonials = [
   },
   {
     name: "Aditya Gayakwad",
-    role: "Data Scientist at FinTech Innovations",
+    role: "Buildspace Grad",
     img: "https://unavatar.io/x/avg_aditya",
     description: (
       <p>
@@ -146,31 +160,16 @@ const testimonials = [
     ),
   },
   // {
-  //   name: "Linda Wu",
-  //   role: "VP of Operations at LogiChain Solutions",
-  //   img: "https://randomuser.me/api/portraits/women/5.jpg",
+  //   name: "DG",
+  //   role: "Radio Host at Banr",
+  //   img: "https://unavatar.io/x/LadyDiGiTech",
   //   description: (
   //     <p>
-  //       #LogiTech's supply chain optimization tools have drastically reduced our
-  //       operational costs.
+  //       {"I didn't know Braeden before I took a call with him. After asking me questions about my company and what I was building, "}
   //       <Highlight>
-  //         Efficiency and accuracy in logistics have never been better.
-  //       </Highlight>{" "}
-  //     </p>
-  //   ),
-  // },
-  // {
-  //   name: "Carlos Gomez",
-  //   role: "Head of R&D at EcoInnovate",
-  //   img: "https://randomuser.me/api/portraits/men/14.jpg",
-  //   description: (
-  //     <p>
-  //       By integrating #GreenTech's sustainable energy solutions, we've seen a
-  //       significant reduction in carbon footprint.
-  //       <Highlight>
-  //         Leading the way in eco-friendly business practices.
-  //       </Highlight>{" "}
-  //       Pioneering change in the industry.
+  //         {"he suggested a new angle that had not crossed my mind as a possibility."}
+  //       </Highlight>
+  //       {" I plan to use his suggestions to help help my business grow. I'm glad I took a call with Braeden!"}
   //     </p>
   //   ),
   // },
@@ -266,10 +265,10 @@ export function Testimonials() {
     const updateNumGroups = () => {
       // if (window.innerWidth >= 1536) {
       //   setNumGroups(4); // 2xl
-      // } else if (window.innerWidth >= 1280) {
-      //   setNumGroups(3); // xl
-      // } else 
-      if (window.innerWidth >= 768) {
+      // }
+      if (window.innerWidth >= 1280) {
+        setNumGroups(3); // xl
+      } else if (window.innerWidth >= 768) {
         setNumGroups(2); // md
       } else {
         setNumGroups(1); // sm and below
@@ -283,10 +282,13 @@ export function Testimonials() {
   }, []);
 
   useEffect(() => {
-    const groupSize = Math.ceil(testimonials.length / numGroups);
-    const newTestimonialGroups = Array.from({ length: numGroups }, (_, i) =>
-      testimonials.slice(i * groupSize, ((i + 1) * groupSize))
-    );
+    const groupSize = Math.floor(testimonials.length / numGroups);
+    const newTestimonialGroups = Array.from({ length: numGroups }, (_, i) => {
+      if (i === numGroups - 1) {
+        return testimonials.slice(i * groupSize);
+      }
+      return testimonials.slice(i * groupSize, (i + 1) * groupSize);
+    });
 
     setTestimonialGroups(newTestimonialGroups);
   }, [numGroups]);

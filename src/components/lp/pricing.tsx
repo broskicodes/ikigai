@@ -82,6 +82,60 @@ export function Pricing() {
       }
       //   setSelectedPlan(plan);
 
+      // if (plan.price === 0) {
+      //   setLoading(true);
+
+      //   const res = await fetch(`${CONSOLE_API_URL}/calls/create-link`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "user-id": user.id,
+      //     },
+      //     body: JSON.stringify({
+      //       paid: plan.price > 0,
+      //     }),
+      //   });
+
+      //   if (!res.ok) {
+      //     toast.error("Something went wrong");
+      //   }
+
+      //   const link = await res.json();
+      //   router.push(link);
+      // } else {
+      //   if (scheduledCalls.length < 1 && paidCalls.length < 1) {
+      //     setLoading(true);
+
+      //     const res = await fetch(
+      //       `${CONSOLE_API_URL}/stripe/checkout-session`,
+      //       {
+      //         method: "POST",
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //           "user-id": user.id,
+      //         },
+      //         body: JSON.stringify({
+      //           success_url: `${ENV_URL}?modal=open`,
+      //           cancel_url: ENV_URL,
+      //           payment_type: plan.recurring ? "weekly" : "one_time",
+      //         }),
+      //       },
+      //     );
+
+      //     if (!res.ok) {
+      //       toast.error("Something went wrong");
+      //     }
+
+      //     const link = await res.json();
+      //     //   console.log(link);
+
+      //     router.push(link);
+      //   } else {
+      //     modalTriggerRef.current?.click();
+      //   }
+      // }
+      //   setSelectedPlan(plan);
+
       //   if (plan.price === 0) {
       setLoading(true);
 
@@ -185,7 +239,7 @@ export function Pricing() {
                   {plan.features.map((feature, index) => (
                     <li className="flex items-center gap-2" key={index}>
                       <Check size={20} className="text-primary" />
-                      <span className="text-base md:text-lg text-muted-foreground">
+                      <span className="text-base text-muted-foreground">
                         {feature}
                       </span>
                     </li>
@@ -223,7 +277,7 @@ export function Pricing() {
                       Loading...
                     </span>
                   ) : (
-                    <span className="text-lg font-extrabold">
+                    <span className="text-lg font-bold">
                       Book FREE Onboarding Call
                     </span>
                   )}
