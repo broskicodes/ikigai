@@ -9,7 +9,6 @@ import {
   useCallback,
 } from "react";
 
-
 export enum Flavour {
   IKIGAI = "ikigai",
   IDEA_BUDDY = "idea_buddy",

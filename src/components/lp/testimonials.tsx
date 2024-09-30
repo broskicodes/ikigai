@@ -65,7 +65,10 @@ export const TestimonialCard = ({
       <img
         src={img}
         className="h-10 w-10 rounded-full  ring-1 ring-border ring-offset-4"
-        alt={name.split(" ").map((word) => word[0]).join("")}
+        alt={name
+          .split(" ")
+          .map((word) => word[0])
+          .join("")}
       />
 
       <div>
@@ -83,7 +86,9 @@ const testimonials = [
     img: "https://unavatar.io/x/mattiapomelli",
     description: (
       <p>
-        {"Whenever I feel stuck I reach out to Braeden. Talking with him is always super helpful to get clarity on what I want. It's crazy how much having someone that "}
+        {
+          "Whenever I feel stuck I reach out to Braeden. Talking with him is always super helpful to get clarity on what I want. It's crazy how much having someone that "
+        }
         <Highlight>
           {"asks you the right questions and is open to listen to you"}
         </Highlight>
@@ -97,7 +102,9 @@ const testimonials = [
     img: "/images/molinar.webp",
     description: (
       <p>
-        {"Braeden is very insightful and can advise you on how to get off zero very quickly. "}
+        {
+          "Braeden is very insightful and can advise you on how to get off zero very quickly. "
+        }
         <Highlight>
           {"He speaks with practical real life experience from being a founder"}
         </Highlight>
@@ -111,10 +118,10 @@ const testimonials = [
     img: "https://unavatar.io/x/kirstenrpomales",
     description: (
       <p>
-        <Highlight>
-          {"Braeden is a great soundboard."}
-        </Highlight>
-        {" He's been so helpful in talking through issues I've tackled in my business and always has good questions to help me approach things a different way. Thanks Braeden!"}
+        <Highlight>{"Braeden is a great soundboard."}</Highlight>
+        {
+          " He's been so helpful in talking through issues I've tackled in my business and always has good questions to help me approach things a different way. Thanks Braeden!"
+        }
       </p>
     ),
   },
@@ -124,9 +131,11 @@ const testimonials = [
     img: "https://unavatar.io/x/dzhohola",
     description: (
       <p>
-        {"I know Braeden from Buildspace time. He's had several successful projects. During our call, I received interesting directions that I can take my project and a couple of "}
+        {
+          "I know Braeden from Buildspace time. He's had several successful projects. During our call, I received interesting directions that I can take my project and a couple of "
+        }
         <Highlight>
-        {"useful suggestions for the iteration process and MVP development."}
+          {"useful suggestions for the iteration process and MVP development."}
         </Highlight>
       </p>
     ),
@@ -137,11 +146,17 @@ const testimonials = [
     img: "https://unavatar.io/x/aviralgod",
     description: (
       <p>
-        {"It was an absolute pleasure chatting with Braeden! I started the call with a lack of direction, but after 5-10 minutes of listening to my problems, "}
+        {
+          "It was an absolute pleasure chatting with Braeden! I started the call with a lack of direction, but after 5-10 minutes of listening to my problems, "
+        }
         <Highlight>
-          {"Braeden was able to dissect my issues and help me realize what I really needed to focus on."}
+          {
+            "Braeden was able to dissect my issues and help me realize what I really needed to focus on."
+          }
         </Highlight>
-        {" Some of the advice he gave me is already starting to work and increase our conversion."}
+        {
+          " Some of the advice he gave me is already starting to work and increase our conversion."
+        }
       </p>
     ),
   },
@@ -151,11 +166,15 @@ const testimonials = [
     img: "https://unavatar.io/x/avg_aditya",
     description: (
       <p>
-        {"Before talking to him I was working on multiple side projects simultaneously thinking at least one would scale. "}
+        {
+          "Before talking to him I was working on multiple side projects simultaneously thinking at least one would scale. "
+        }
         <Highlight>
           {"Braeden helped me figure out which one to focus on."}
         </Highlight>
-        {" That side project became my main project and eventually a startup. Now we are getting good responses and feedback and are launching the beta version soon. Also I like his jawline."}
+        {
+          " That side project became my main project and eventually a startup. Now we are getting good responses and feedback and are launching the beta version soon. Also I like his jawline."
+        }
       </p>
     ),
   },
@@ -259,7 +278,9 @@ const testimonials = [
 
 export function Testimonials() {
   const [numGroups, setNumGroups] = useState(3);
-  const [testimonialGroups, setTestimonialGroups] = useState<TestimonialCardProps[][]>([]);
+  const [testimonialGroups, setTestimonialGroups] = useState<
+    TestimonialCardProps[][]
+  >([]);
 
   useEffect(() => {
     const updateNumGroups = () => {
@@ -275,10 +296,10 @@ export function Testimonials() {
       }
     };
 
-    window.addEventListener('resize', updateNumGroups);
+    window.addEventListener("resize", updateNumGroups);
     updateNumGroups(); // Initial call to set the number of groups based on the current window size
 
-    return () => window.removeEventListener('resize', updateNumGroups);
+    return () => window.removeEventListener("resize", updateNumGroups);
   }, []);
 
   useEffect(() => {
@@ -306,15 +327,15 @@ export function Testimonials() {
             </h2>
           </div>
           <div className="relative mt-6 max-h-[650px] overflow-hidden">
-            <div className={`gap-4 ${numGroups === 1 ? "columns-1" : numGroups === 2 ? "columns-2" : numGroups === 3 ? "columns-3" : "columns-4"}`}>
+            <div
+              className={`gap-4 ${numGroups === 1 ? "columns-1" : numGroups === 2 ? "columns-2" : numGroups === 3 ? "columns-3" : "columns-4"}`}
+            >
               {testimonialGroups.map((group, i) => (
                 <Marquee
                   vertical
                   key={i}
                   reverse={i % 2 === 0}
-                  className={cn(
-                    "[--duration:20s]"
-                  )}
+                  className={cn("[--duration:20s]")}
                 >
                   {group.map((card, idx) => (
                     <TestimonialCard {...card} key={idx} />

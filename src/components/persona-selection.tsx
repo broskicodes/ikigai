@@ -32,12 +32,11 @@ A Japanese concept meaning **"reason for being."** It combines four elements:
 Ikigai is found at the intersection of these elements, representing a balance of passion, mission, profession, and vocation.
 
 **I'm here to help you find yours!** Ready?`,
-    }
+    },
   },
   {
     name: "Find your next brilliant idea",
-    description:
-      "Brainstorm with an AI to find your next brilliant idea.",
+    description: "Brainstorm with an AI to find your next brilliant idea.",
     image: "/images/ikigai.png",
     flavour: Flavour.IDEA_BUDDY,
     firstMessage: {
@@ -45,7 +44,7 @@ Ikigai is found at the intersection of these elements, representing a balance of
       content: `## Idea Buddy
 ----
 I'm here to help you find your next brilliant idea. Ready?`,
-    }
+    },
   },
 ];
 
@@ -88,9 +87,7 @@ export function PersonaSelector() {
                 </div>
               </CardHeader>
               <CardContent>
-              <CardTitle className="text-xl">
-                  {persona.name}
-                </CardTitle>
+                <CardTitle className="text-xl">{persona.name}</CardTitle>
                 <CardDescription className="">
                   {persona.description}
                 </CardDescription>
