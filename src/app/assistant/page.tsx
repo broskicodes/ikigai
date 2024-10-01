@@ -12,7 +12,9 @@ export default function Assistant() {
   const { selectedPersona, setSelectedPersona } = usePersona();
 
   return (
-    <div className={`flex ${!selectedPersona && "flex-col"} min-h-screen w-full bg-background`}>
+    <div
+      className={`flex ${!selectedPersona && "flex-col"} min-h-screen w-full bg-background`}
+    >
       <main className="flex-1 flex flex-col h-screen">
         <Header />
         {selectedPersona ? (
@@ -27,9 +29,7 @@ export default function Assistant() {
               </button>
               <div className="flex items-center gap-3">
                 <div>
-                  <div className="font-medium">
-                    {selectedPersona.name}
-                  </div>
+                  <div className="font-medium">{selectedPersona.name}</div>
                   <div className="text-sm text-muted-foreground">
                     {selectedPersona.description}
                   </div>

@@ -58,8 +58,8 @@ export function Header() {
           </nav>
           <div className="hidden items-center gap-2 md:flex">
             <Button asChild>
-              <Link href="/assistant" className="cursor-pointer">
-                Chat with KAI
+              <Link href="/dashboard" className="cursor-pointer">
+                Dashboard
               </Link>
             </Button>
           </div>

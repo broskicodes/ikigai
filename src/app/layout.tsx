@@ -15,14 +15,14 @@ export type SiteConfig = {
 
 const siteConfig: SiteConfig = {
   name: "My Kaizen",
-  description: "We provide mentorship and community to help entrepreneurs reach their goals faster.",
+  description:
+    "We provide mentorship and community to help entrepreneurs reach their goals faster.",
   url: "https://mykaizen.life/",
   ogImage: "https://mykaizen.life/images/ikigai-chart.jpg",
   links: {
     twitter: "https://x.com/mykaizen_life",
   },
 };
-
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} - Helping entrepreneurs do meaningful work`,
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [siteConfig.ogImage],
-    },
-    twitter: {
+  },
+  twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
     creator: "@_reweb",
-    },
+  },
 };
 
 const fontHeading = Instrument_Sans({

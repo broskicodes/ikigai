@@ -74,8 +74,8 @@ export const BlogSection = () => {
         <h2 className="text-3xl font-bold text-center mb-8 text-foreground">
           Latest Blog Posts
         </h2>
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
-            {currentPosts.map((post) => (
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
+          {currentPosts.map((post) => (
             <Card key={post.slug} className="flex flex-col h-fit">
               <CardHeader className="p-0">
                 <img

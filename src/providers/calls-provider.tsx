@@ -98,7 +98,7 @@ export const CallsProvider = ({ children }: { children: React.ReactNode }) => {
       setPaidCalls(paidCalls);
     };
 
-    fetchCalls();
+    // fetchCalls();
   }, [getScheduledCalls, getPaidCalls]);
 
   return (

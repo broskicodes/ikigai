@@ -115,20 +115,27 @@ export function Chat() {
     const updateScrollAreaHeight = () => {
       if (chatContainerRef.current && scrollAreaRef.current) {
         const containerHeight = chatContainerRef.current.clientHeight;
-        const formHeight = chatContainerRef.current.lastElementChild?.clientHeight || 0;
+        const formHeight =
+          chatContainerRef.current.lastElementChild?.clientHeight || 0;
         scrollAreaRef.current.style.maxHeight = `${containerHeight - formHeight}px`;
       }
     };
 
     updateScrollAreaHeight();
-    window.addEventListener('resize', updateScrollAreaHeight);
+    window.addEventListener("resize", updateScrollAreaHeight);
 
-    return () => window.removeEventListener('resize', updateScrollAreaHeight);
+    return () => window.removeEventListener("resize", updateScrollAreaHeight);
   }, []);
 
   return (
-    <div ref={chatContainerRef} className="flex flex-col h-full w-full overflow-hidden">
-      <ScrollArea className="flex-grow flex flex-col p-4 lg:p-6" ref={scrollAreaRef}>
+    <div
+      ref={chatContainerRef}
+      className="flex flex-col h-full w-full overflow-hidden"
+    >
+      <ScrollArea
+        className="flex-grow flex flex-col p-4 lg:p-6"
+        ref={scrollAreaRef}
+      >
         <div className="space-y-4">
           {messages.map((message, index) => (
             <div
