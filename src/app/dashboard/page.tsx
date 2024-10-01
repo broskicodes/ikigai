@@ -18,7 +18,7 @@ import { Chart } from "@/components/dashboard/chart";
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { Header } from "@/components/lp/header";
 import { Footer } from "@/components/lp/footer";
-import { GoalModal } from "@/components/dashboard/goal_modal";
+import { GoalModal } from "@/components/dashboard/goal-modal";
 
 ChartJS.register(
   CategoryScale,

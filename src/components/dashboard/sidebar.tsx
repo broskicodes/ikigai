@@ -2,6 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Goal, GoalStatus } from "@/lib/types";
+import { Button } from "../ui/button";
+import { GoalUpdateModal } from "./goal-update-modal";
 
 interface SidebarProps {
   goals: Goal[];
@@ -27,19 +29,31 @@ export function Sidebar({ goals, handleClick }: SidebarProps) {
                   goal.target) *
                 100
               }
-              className="mb-2"
+              className="mb-4"
             />
+            <div className="flex justify-between items-center">
             <Badge
               variant={
                 goal.status === GoalStatus.TO_DO
                   ? "secondary"
                   : goal.status === GoalStatus.IN_PROGRESS
                     ? "default"
-                    : "outline"
+                    : goal.status === GoalStatus.ARCHIVED
+                    ? "outline"
+                    : "accent"
               }
             >
               {goal.status}
             </Badge>
+            <GoalUpdateModal 
+            goal={goal}
+            trigger={<Button
+                size="sm"
+                variant="secondary"
+              >
+                Edit
+              </Button>} />
+            </div>
           </CardContent>
         </Card>
       ))}
